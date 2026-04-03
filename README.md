@@ -1,3 +1,5 @@
+<img width="1564" height="280" alt="IMG_2761" src="https://github.com/user-attachments/assets/a3bccaf0-8a45-493e-89a8-462bd6ab14e0" />
+
 <h1 align="center">🔥 38기 과제 🔥</h1>
 
 <p align="center">
