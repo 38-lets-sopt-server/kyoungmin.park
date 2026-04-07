@@ -1,34 +1,41 @@
 package org.sopt.post.controller;
+
 import java.util.List;
 
-import org.sopt.post.controller.dto.request.CreatePostRequest;
-import org.sopt.post.controller.dto.response.CreatePostResponse;
-import org.sopt.post.controller.dto.response.PostResponse;
+import org.sopt.global.exception.BaseException;
+import org.sopt.global.response.CommonResponse;
+import org.sopt.global.status.SuccessStatus;
+import org.sopt.post.controller.mapper.PostPresentationMapper;
+import org.sopt.post.dto.response.PostDetailResponse;
+import org.sopt.post.model.input.CreatePostInput;
+import org.sopt.post.model.output.PostDetailOutput;
 import org.sopt.post.service.PostService;
 
 public class PostController {
 	private final PostService postService = new PostService();
 
 	// POST /posts
-	public CreatePostResponse createPost(CreatePostRequest request) {
+	public CommonResponse<PostDetailOutput> createPost(CreatePostInput input) {
 		try {
-			return postService.createPost(request);
-		} catch (IllegalArgumentException e) {
-			return new CreatePostResponse(null, "🚫 " + e.getMessage());
+			input.validate();
+			PostDetailResponse response = postService.createPost(PostPresentationMapper.toRequest(input));
+			return CommonResponse.success(SuccessStatus.POST_CREATED, PostPresentationMapper.toOutput(response));
+		} catch (BaseException e) {
+			return CommonResponse.failure(e.getFailureStatus());
 		}
 	}
 
 	// GET /posts 📝 과제
-	public List<PostResponse> getAllPosts() {
-		// TODO: postService.getAllPosts() 호출해서 반환
-		return null;
-	}
+	// public List<PostResponse> getAllPosts() {
+	// 	// TODO: postService.getAllPosts() 호출해서 반환
+	// 	return null;
+	// }
 
 	// GET /posts/{id} 📝 과제
-	public PostResponse getPost(Long id) {
-		// TODO: postService.getPost(id) 호출, 예외 발생 시 null 반환
-		return null;
-	}
+	// public PostResponse getPost(Long id) {
+	// 	// TODO: postService.getPost(id) 호출, 예외 발생 시 null 반환
+	// 	return null;
+	// }
 
 	// PUT /posts/{id} 📝 과제
 	public void updatePost(Long id, String newTitle, String newContent) {

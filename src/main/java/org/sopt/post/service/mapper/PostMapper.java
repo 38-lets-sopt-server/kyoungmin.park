@@ -1,0 +1,39 @@
+package org.sopt.post.service.mapper;
+
+import java.time.LocalDateTime;
+
+import org.sopt.post.domain.Post;
+import org.sopt.post.dto.request.CreatePostRequest;
+import org.sopt.post.dto.response.PostDetailResponse;
+
+public class PostMapper {
+	public static Post toDomain(Long id, CreatePostRequest request) {
+		return new Post(
+				id,
+				request.title(),
+				request.content(),
+				request.author(),
+				LocalDateTime.now(),
+				request.isAnonymous(),
+				request.hashtags(),
+				0,
+				0,
+				0
+		);
+	}
+
+	public static PostDetailResponse toDetailResponse(Post post) {
+		return new PostDetailResponse(
+				post.getId(),
+				post.getTitle(),
+				post.getContent(),
+				post.getAuthor(),
+				post.getCreatedAt(),
+				post.isAnonymous(),
+				post.getHashtags(),
+				post.getLikeCount(),
+				post.getCommentCount(),
+				post.getScrapCount()
+		);
+	}
+}
