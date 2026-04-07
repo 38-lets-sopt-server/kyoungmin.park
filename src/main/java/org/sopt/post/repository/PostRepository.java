@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.sopt.post.domain.Post;
 
@@ -22,8 +23,8 @@ public class PostRepository {
 				.toList();
 	}
 
-	public Post findById(Long id) {
-		return postList.get(id);
+	public Optional<Post> findById(Long id) {
+		return Optional.ofNullable(postList.get(id));
 	}
 
 	public boolean deleteById(Long id) {
