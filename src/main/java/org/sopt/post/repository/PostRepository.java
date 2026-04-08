@@ -23,11 +23,11 @@ public class PostRepository {
 				.toList();
 	}
 
-	public Optional<Post> findById(Long id) {
+	public Optional<Post> findById(long id) {
 		return Optional.ofNullable(postList.get(id));
 	}
 
-	public boolean deleteById(Long id) {
+	public boolean deleteById(long id) {
 		return postList.remove(id) != null;
 	}
 
