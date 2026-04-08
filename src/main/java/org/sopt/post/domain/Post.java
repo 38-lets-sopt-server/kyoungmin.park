@@ -1,5 +1,7 @@
 package org.sopt.post.domain;
 
+import org.sopt.global.status.FailureStatus;
+import org.sopt.post.exception.InvalidTitleException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class Post {
 			int commentCount,
 			int scrapCount
 	) {
+		validateTitle(title);
 		this.id = id;
 		this.title = title;
 		this.content = content;
@@ -51,9 +54,19 @@ public class Post {
 	public int getScrapCount() { return scrapCount; }
 
 	public void update(String title, String content, List<String> hashtags) {
+		validateTitle(title);
 		this.title = title;
 		this.content = content;
 		this.hashtags = hashtags;
+	}
+
+	private void validateTitle(String title) {
+		if (title == null || title.isBlank()) {
+			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
+		}
+		if (title.codePointCount(0, title.length()) > 50) {
+			throw new InvalidTitleException(FailureStatus.INVALID_TITLE_LENGTH);
+		}
 	}
 
 	public String getInfo() {

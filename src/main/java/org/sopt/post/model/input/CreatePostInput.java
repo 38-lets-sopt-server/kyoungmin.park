@@ -1,5 +1,6 @@
 package org.sopt.post.model.input;
 
+import org.sopt.global.status.FailureStatus;
 import org.sopt.post.exception.InvalidAnonymousFlagException;
 import org.sopt.post.exception.InvalidAuthorException;
 import org.sopt.post.exception.InvalidContentException;
@@ -14,7 +15,7 @@ public record CreatePostInput(
 ) {
 	public void validate() {
 		if (title == null || title.isBlank()) {
-			throw new InvalidTitleException();
+			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
 		}
 		if (content == null || content.isBlank()) {
 			throw new InvalidContentException();
