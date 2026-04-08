@@ -14,6 +14,7 @@ public class PostCreateView {
 
 		printEnterAuthorMsg();
 		String author = sc.nextLine();
+
 		printEnterIsAnonymousMsg();
 		String isAnonymous = sc.nextLine();
 
@@ -21,25 +22,30 @@ public class PostCreateView {
 		String hashtags = sc.nextLine();
 
 		return new CreatePostInput(title, content, author, isAnonymous, hashtags);
-		}
-
-		private static void printEnterTitleMsg(){
-		System.out.print("제목: ");
 	}
 
-	private static void printEnterContentMsg(){
-		System.out.print("내용: ");
+	private static void printEnterTitleMsg() {
+		System.out.println("\n제목을 입력해주세요.");
+		System.out.print("> ");
 	}
 
-	private static void printEnterAuthorMsg(){
-		System.out.print("작성자: ");
+	private static void printEnterContentMsg() {
+		System.out.println("본문을 입력해주세요.");
+		System.out.print("> ");
 	}
 
-	private static void printEnterIsAnonymousMsg(){
-		System.out.print("익명 여부(Y/N): ");
+	private static void printEnterAuthorMsg() {
+		System.out.println("작성자를 입력해주세요.");
+		System.out.print("> ");
 	}
 
-	private static void printEnterHashtagsMsg(){
-		System.out.print("해시태그(\",\"로 구분): ");
+	private static void printEnterIsAnonymousMsg() {
+		System.out.println("익명 여부를 입력해주세요. (Y/N)");
+		System.out.print("> ");
+	}
+
+	private static void printEnterHashtagsMsg() {
+		System.out.println("해시태그를 입력해주세요. (쉼표로 구분)");
+		System.out.print("> ");
 	}
 }

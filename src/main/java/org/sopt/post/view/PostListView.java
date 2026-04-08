@@ -19,20 +19,24 @@ public class PostListView {
 			System.out.println("\n=== [게시글 목록] ===");
 
 			for (PostSummaryOutput post : data.posts()) {
-				System.out.printf("ID: %d%n", post.id());
-				System.out.printf("제목: %-20s%n", truncateText(post.title()));
-				System.out.printf("내용: %-20s%n", truncateText(post.content()));
-				System.out.printf("공감수: %d | 댓글수: %d | %s | %s%n",
-						post.likeCount(),
-						post.commentCount(),
-						post.createdAt(),
-						post.author()
-				);
-				System.out.println("-------------------------------------");
+				printPostListcomponent(post);
 			}
 		} else {
 			System.out.println("\n[요청 처리에 실패했습니다] : " + response.message());
 		}
+	}
+
+	private static void printPostListcomponent(PostSummaryOutput post) {
+		System.out.printf("ID: %d%n", post.id());
+		System.out.printf("제목: %-20s%n", truncateText(post.title()));
+		System.out.printf("내용: %-20s%n", truncateText(post.content()));
+		System.out.printf("공감수: %d | 댓글수: %d | %s | %s%n",
+				post.likeCount(),
+				post.commentCount(),
+				post.createdAt(),
+				post.author()
+		);
+		System.out.println("-------------------------------------");
 	}
 
 	private static String truncateText(String text) {
