@@ -1,6 +1,7 @@
 package org.sopt.post.service;
 
 import org.sopt.post.dto.request.CreatePostRequest;
+import org.sopt.post.dto.request.UpdatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
 import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.domain.Post;
@@ -23,17 +24,21 @@ public class PostService {
 	}
 
 	// READ
-	public PostDetailResponse getPost(Long id) {
+	public PostDetailResponse getPost(long id) {
 		return PostMapper.toDetailResponse(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
 	}
 
 	// UPDATE
-	public void updatePost(Long id, String newTitle, String newContent) {
-		// TODO
+	public PostDetailResponse updatePost(long id, UpdatePostRequest request) {
+		Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+		post.update(request.title(), request.content(), request.hashtags());
+		return PostMapper.toDetailResponse(post);
 	}
 
 	// DELETE
-	public void deletePost(Long id) {
-		postRepository.deleteById(id);
+	public void deletePost(long id) {
+		if (!postRepository.deleteById(id)) {
+			throw new PostNotFoundException();
+		}
 	}
 }

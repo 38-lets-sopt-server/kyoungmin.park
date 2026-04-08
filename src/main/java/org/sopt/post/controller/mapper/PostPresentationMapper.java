@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.sopt.post.dto.request.CreatePostRequest;
+import org.sopt.post.dto.request.UpdatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
 import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.model.input.CreatePostInput;
+import org.sopt.post.model.input.UpdatePostInput;
 import org.sopt.post.model.output.PostDetailOutput;
 import org.sopt.post.model.output.PostListOutput;
 import org.sopt.post.model.output.PostSummaryOutput;
@@ -27,6 +29,14 @@ public class PostPresentationMapper {
 				input.content(),
 				input.author(),
 				input.isAnonymous(),
+				input.hashtags()
+		);
+	}
+
+	public static UpdatePostRequest toRequest(UpdatePostInput input) {
+		return new UpdatePostRequest(
+				input.title(),
+				input.content(),
 				input.hashtags()
 		);
 	}

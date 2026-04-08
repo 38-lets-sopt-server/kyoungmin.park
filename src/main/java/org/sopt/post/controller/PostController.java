@@ -7,6 +7,7 @@ import org.sopt.post.controller.mapper.PostPresentationMapper;
 import org.sopt.post.dto.response.PostDetailResponse;
 import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.model.input.CreatePostInput;
+import org.sopt.post.model.input.UpdatePostInput;
 import org.sopt.post.model.output.PostDetailOutput;
 import org.sopt.post.model.output.PostListOutput;
 import org.sopt.post.service.PostService;
@@ -32,7 +33,7 @@ public class PostController {
 	}
 
 	// GET /posts/{id}
-	public CommonResponse<PostDetailOutput> getPost(Long id) {
+	public CommonResponse<PostDetailOutput> getPost(long id) {
 		try {
 			PostDetailResponse response = postService.getPost(id);
 			return CommonResponse.success(SuccessStatus.POST_FOUND, PostPresentationMapper.toDetailOutput(response));
@@ -41,13 +42,24 @@ public class PostController {
 		}
 	}
 
-	// PUT /posts/{id} 📝 과제
-	public void updatePost(Long id, String newTitle, String newContent) {
-		// TODO: postService.updatePost() 호출, 예외 발생 시 에러 메시지 출력
+	// PUT /posts/{id}
+	public CommonResponse<PostDetailOutput> updatePost(UpdatePostInput input) {
+		try {
+			input.validate();
+			PostDetailResponse response = postService.updatePost(input.id(), PostPresentationMapper.toRequest(input));
+			return CommonResponse.success(SuccessStatus.POST_UPDATED, PostPresentationMapper.toDetailOutput(response));
+		} catch (BaseException e) {
+			return CommonResponse.failure(e.getFailureStatus());
+		}
 	}
 
-	// DELETE /posts/{id} 📝 과제
-	public void deletePost(Long id) {
-		// TODO: postService.deletePost() 호출, 예외 발생 시 에러 메시지 출력
+	// DELETE /posts/{id}
+	public CommonResponse<Void> deletePost(long id) {
+		try {
+			postService.deletePost(id);
+			return CommonResponse.success(SuccessStatus.POST_DELETED);
+		} catch (BaseException e) {
+			return CommonResponse.failure(e.getFailureStatus());
+		}
 	}
 }
