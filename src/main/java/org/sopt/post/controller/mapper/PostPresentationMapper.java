@@ -16,6 +16,8 @@ import org.sopt.post.model.output.PostListOutput;
 import org.sopt.post.model.output.PostSummaryOutput;
 
 public class PostPresentationMapper {
+	private PostPresentationMapper() {}
+
 	private static final DateTimeFormatter TIME_FORMATTER =
 			DateTimeFormatter.ofPattern("HH:mm");
 	private static final DateTimeFormatter DATE_FORMATTER =

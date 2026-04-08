@@ -12,7 +12,7 @@ import java.util.List;
 public class PostMapper {
 	private PostMapper() {}
 
-	public static Post toDomain(Long id, CreatePostRequest request) {
+	public static Post toDomain(long id, CreatePostRequest request) {
 		return new Post(
 				id,
 				request.title(),
