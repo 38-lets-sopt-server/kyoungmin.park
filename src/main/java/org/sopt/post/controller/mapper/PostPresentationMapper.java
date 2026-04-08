@@ -2,12 +2,16 @@ package org.sopt.post.controller.mapper;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.sopt.post.dto.request.CreatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
+import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.model.input.CreatePostInput;
 import org.sopt.post.model.output.PostDetailOutput;
+import org.sopt.post.model.output.PostListOutput;
+import org.sopt.post.model.output.PostSummaryOutput;
 
 public class PostPresentationMapper {
 	private static final DateTimeFormatter TIME_FORMATTER =
@@ -27,7 +31,7 @@ public class PostPresentationMapper {
 		);
 	}
 
-	public static PostDetailOutput toOutput(PostDetailResponse response) {
+	public static PostDetailOutput toDetailOutput(PostDetailResponse response) {
 		return new PostDetailOutput(
 				response.id(),
 				response.title(),
@@ -42,7 +46,21 @@ public class PostPresentationMapper {
 		);
 	}
 
-	private static String formatHashtags(java.util.List<String> hashtags) {
+	public static PostListOutput toListOutput(PostListResponse response) {
+		List<PostSummaryOutput> summaries = response.posts().stream()
+				.map((summaryResponse) -> new PostSummaryOutput(
+						summaryResponse.id(),
+						summaryResponse.title(),
+						summaryResponse.content(),
+						summaryResponse.likeCount(),
+						summaryResponse.commentCount(),
+						formatCreatedAt(summaryResponse.createdAt()),
+						summaryResponse.author()
+				)).toList();
+		return new PostListOutput(summaries, response.totalCount());
+	}
+
+	private static String formatHashtags(List<String> hashtags) {
 		if (hashtags == null || hashtags.isEmpty()) {
 			return "";
 		}

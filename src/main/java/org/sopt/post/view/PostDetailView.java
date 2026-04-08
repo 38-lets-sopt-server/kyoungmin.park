@@ -1,10 +1,12 @@
 package org.sopt.post.view;
 
+import java.util.Scanner;
+
 import org.sopt.global.response.CommonResponse;
 import org.sopt.post.model.output.PostDetailOutput;
 
 public class PostDetailView {
-	public static Long getPostId(java.util.Scanner scanner) {
+	public static Long getPostId(Scanner scanner) {
 		System.out.print("조회할 게시글 ID: ");
 		Long id = scanner.nextLong();
 		scanner.nextLine();

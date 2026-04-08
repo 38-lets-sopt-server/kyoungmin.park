@@ -6,9 +6,11 @@ import org.sopt.global.response.CommonResponse;
 import org.sopt.post.controller.PostController;
 import org.sopt.post.model.input.CreatePostInput;
 import org.sopt.post.model.output.PostDetailOutput;
+import org.sopt.post.model.output.PostListOutput;
 import org.sopt.post.view.MenuView;
 import org.sopt.post.view.PostCreateView;
 import org.sopt.post.view.PostDetailView;
+import org.sopt.post.view.PostListView;
 
 public class Main {
 	public static void main(String[] args) {
@@ -26,19 +28,13 @@ public class Main {
 			switch (choice) {
 				case 1:
 					CreatePostInput input = PostCreateView.getCreatePostInput(scanner);
-
 					CommonResponse<PostDetailOutput> output = postController.createPost(input);
-
 					PostDetailView.printPostDetail(output);
 					break;
 
 				case 2:
-					// List<PostResponse> posts = postController.getAllPosts();
-					// if (posts.isEmpty()) {
-					// 	System.out.println("등록된 게시글이 없습니다.");
-					// } else {
-					// 	posts.forEach(p -> System.out.println(p + "\n---"));
-					// }
+					CommonResponse<PostListOutput> listOutput = postController.getAllPosts();
+					PostListView.printPostList(listOutput);
 					break;
 
 				case 3:

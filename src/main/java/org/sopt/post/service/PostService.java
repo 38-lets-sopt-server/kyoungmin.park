@@ -1,9 +1,8 @@
 package org.sopt.post.service;
 
-import java.util.List;
-
 import org.sopt.post.dto.request.CreatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
+import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.domain.Post;
 import org.sopt.post.exception.PostNotFoundException;
 import org.sopt.post.repository.PostRepository;
@@ -19,10 +18,9 @@ public class PostService {
 	}
 
 	// READALL
-	// public List<PostResponse> getAllPosts() {
-	// 	postRepository.findAll();
-	// 	return null;
-	// }
+	public PostListResponse getAllPosts() {
+		return PostMapper.toListResponse(postRepository.findAll());
+	}
 
 	// READ
 	public PostDetailResponse getPost(Long id) {

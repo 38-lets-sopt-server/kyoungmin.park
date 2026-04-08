@@ -5,8 +5,13 @@ import java.time.LocalDateTime;
 import org.sopt.post.domain.Post;
 import org.sopt.post.dto.request.CreatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
+import org.sopt.post.dto.response.PostListResponse;
+
+import java.util.List;
 
 public class PostMapper {
+	private PostMapper() {}
+
 	public static Post toDomain(Long id, CreatePostRequest request) {
 		return new Post(
 				id,
@@ -35,5 +40,9 @@ public class PostMapper {
 				post.getCommentCount(),
 				post.getScrapCount()
 		);
+	}
+
+	public static PostListResponse toListResponse(List<Post> posts) {
+		return PostListResponse.of(posts, posts.size());
 	}
 }
