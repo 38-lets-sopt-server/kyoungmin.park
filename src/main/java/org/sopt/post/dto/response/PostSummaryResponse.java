@@ -13,7 +13,7 @@ public record PostSummaryResponse(
 		LocalDateTime createdAt,
 		String author
 ) {
-	public static PostSummaryResponse from (Post post) {
+	public static PostSummaryResponse from(Post post) {
 		return new PostSummaryResponse(
 				post.getId(),
 				post.getTitle(),
