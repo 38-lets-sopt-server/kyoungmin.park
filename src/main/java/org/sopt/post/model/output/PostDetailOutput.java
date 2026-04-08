@@ -1,8 +1,5 @@
 package org.sopt.post.model.output;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 public record PostDetailOutput(
 		long id,
 		String title,

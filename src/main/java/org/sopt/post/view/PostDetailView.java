@@ -4,6 +4,13 @@ import org.sopt.global.response.CommonResponse;
 import org.sopt.post.model.output.PostDetailOutput;
 
 public class PostDetailView {
+	public static Long getPostId(java.util.Scanner scanner) {
+		System.out.print("조회할 게시글 ID: ");
+		Long id = scanner.nextLong();
+		scanner.nextLine();
+		return id;
+	}
+
 	public static void printPostDetail(CommonResponse<PostDetailOutput> response) {
 		if (response.isSuccess()) {
 			System.out.println("\n" + response.message());

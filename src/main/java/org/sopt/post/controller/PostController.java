@@ -31,11 +31,15 @@ public class PostController {
 	// 	return null;
 	// }
 
-	// GET /posts/{id} 📝 과제
-	// public PostResponse getPost(Long id) {
-	// 	// TODO: postService.getPost(id) 호출, 예외 발생 시 null 반환
-	// 	return null;
-	// }
+	// GET /posts/{id}
+	public CommonResponse<PostDetailOutput> getPost(Long id) {
+		try {
+			PostDetailResponse response = postService.getPost(id);
+			return CommonResponse.success(SuccessStatus.POST_FOUND, PostPresentationMapper.toOutput(response));
+		} catch (BaseException e) {
+			return CommonResponse.failure(e.getFailureStatus());
+		}
+	}
 
 	// PUT /posts/{id} 📝 과제
 	public void updatePost(Long id, String newTitle, String newContent) {

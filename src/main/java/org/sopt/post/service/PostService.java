@@ -5,6 +5,7 @@ import java.util.List;
 import org.sopt.post.dto.request.CreatePostRequest;
 import org.sopt.post.dto.response.PostDetailResponse;
 import org.sopt.post.domain.Post;
+import org.sopt.post.exception.PostNotFoundException;
 import org.sopt.post.repository.PostRepository;
 import org.sopt.post.service.mapper.PostMapper;
 
@@ -14,7 +15,6 @@ public class PostService {
 	// CREATE
 	public PostDetailResponse createPost(CreatePostRequest request) {
 		Post newPost = postRepository.save(PostMapper.toDomain(postRepository.generateId(), request));
-
 		return PostMapper.toDetailResponse(newPost);
 	}
 
@@ -25,10 +25,9 @@ public class PostService {
 	// }
 
 	// READ
-	// public PostResponse getPost(Long id) {
-	// 	postRepository.findById(id);
-	// 	return null;
-	// }
+	public PostDetailResponse getPost(Long id) {
+		return PostMapper.toDetailResponse(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
+	}
 
 	// UPDATE
 	public void updatePost(Long id, String newTitle, String newContent) {
