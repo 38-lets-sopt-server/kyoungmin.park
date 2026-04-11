@@ -1,11 +1,19 @@
 package org.sopt;
-import java.util.List;
+
 import java.util.Scanner;
 
+import org.sopt.global.response.CommonResponse;
 import org.sopt.post.controller.PostController;
-import org.sopt.post.controller.dto.request.CreatePostRequest;
-import org.sopt.post.controller.dto.response.CreatePostResponse;
-import org.sopt.post.controller.dto.response.PostResponse;
+import org.sopt.post.model.input.CreatePostInput;
+import org.sopt.post.model.input.UpdatePostInput;
+import org.sopt.post.model.output.PostDetailOutput;
+import org.sopt.post.model.output.PostListOutput;
+import org.sopt.post.view.MenuView;
+import org.sopt.post.view.PostCreateView;
+import org.sopt.post.view.PostDeleteView;
+import org.sopt.post.view.PostDetailView;
+import org.sopt.post.view.PostListView;
+import org.sopt.post.view.PostUpdateView;
 
 public class Main {
 	public static void main(String[] args) {
@@ -15,64 +23,46 @@ public class Main {
 		boolean running = true;
 
 		while (running) {
-			System.out.println("\n=== 에브리타임 게시판 ===");
-			System.out.println("1. 게시글 작성");
-			System.out.println("2. 전체 조회");
-			System.out.println("3. 단건 조회");
-			System.out.println("4. 게시글 수정");
-			System.out.println("5. 게시글 삭제");
-			System.out.println("0. 종료");
-			System.out.print("메뉴 선택: ");
+			MenuView.printMenu();
 
-			int choice = scanner.nextInt();
-			scanner.nextLine();
+			int choice = -1;
+			try {
+				choice = scanner.nextInt();
+				scanner.nextLine();
+			} catch (Exception e) {
+				System.out.println("❗ 숫자를 입력해주세요.");
+				scanner.nextLine();
+				continue;
+			}
 
 			switch (choice) {
 				case 1:
-					System.out.print("제목: ");
-					String title = scanner.nextLine();
-					System.out.print("내용: ");
-					String content = scanner.nextLine();
-					System.out.print("작성자: ");
-					String author = scanner.nextLine();
-					// 클라이언트가 요청 객체를 만들어서 Controller에 전달
-					CreatePostResponse response = postController.createPost(
-							new CreatePostRequest(title, content, author)
-					);
-					System.out.println(response.message);
+					CreatePostInput input = PostCreateView.getCreatePostInput(scanner);
+					CommonResponse<PostDetailOutput> output = postController.createPost(input);
+					PostDetailView.printPostDetail(output);
 					break;
 
 				case 2:
-					List<PostResponse> posts = postController.getAllPosts();
-					if (posts.isEmpty()) {
-						System.out.println("등록된 게시글이 없습니다.");
-					} else {
-						posts.forEach(p -> System.out.println(p + "\n---"));
-					}
+					CommonResponse<PostListOutput> listOutput = postController.getAllPosts();
+					PostListView.printPostList(listOutput);
 					break;
 
 				case 3:
-					System.out.print("조회할 게시글 ID: ");
-					PostResponse post = postController.getPost(scanner.nextLong());
-					scanner.nextLine();
-					if (post != null) System.out.println(post);
+					long postId = PostDetailView.getPostId(scanner);
+					CommonResponse<PostDetailOutput> postOutput = postController.getPost(postId);
+					PostDetailView.printPostDetail(postOutput);
 					break;
 
 				case 4:
-					System.out.print("수정할 게시글 ID: ");
-					Long updateId = scanner.nextLong();
-					scanner.nextLine();
-					System.out.print("새 제목: ");
-					String newTitle = scanner.nextLine();
-					System.out.print("새 내용: ");
-					String newContent = scanner.nextLine();
-					postController.updatePost(updateId, newTitle, newContent);
+					UpdatePostInput updateInput = PostUpdateView.getUpdatePostInput(scanner);
+					CommonResponse<PostDetailOutput> updateOutput = postController.updatePost(updateInput);
+					PostDetailView.printPostDetail(updateOutput);
 					break;
 
 				case 5:
-					System.out.print("삭제할 게시글 ID: ");
-					postController.deletePost(scanner.nextLong());
-					scanner.nextLine();
+					long deleteId = PostDeleteView.getPostId(scanner);
+					CommonResponse<Void> deleteOutput = postController.deletePost(deleteId);
+					PostDeleteView.printPostDeleteResult(deleteOutput);
 					break;
 
 				case 0:

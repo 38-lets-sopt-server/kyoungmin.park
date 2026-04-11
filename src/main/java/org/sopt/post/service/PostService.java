@@ -1,49 +1,44 @@
 package org.sopt.post.service;
 
-import java.util.List;
-
-import org.sopt.post.controller.dto.request.CreatePostRequest;
-import org.sopt.post.controller.dto.response.CreatePostResponse;
-import org.sopt.post.controller.dto.response.PostResponse;
+import org.sopt.post.dto.request.CreatePostRequest;
+import org.sopt.post.dto.request.UpdatePostRequest;
+import org.sopt.post.dto.response.PostDetailResponse;
+import org.sopt.post.dto.response.PostListResponse;
 import org.sopt.post.domain.Post;
+import org.sopt.post.exception.PostNotFoundException;
 import org.sopt.post.repository.PostRepository;
+import org.sopt.post.service.mapper.PostMapper;
 
 public class PostService {
 	private final PostRepository postRepository = new PostRepository();
 
 	// CREATE
-	public CreatePostResponse createPost(CreatePostRequest request) {
-		if (request.title == null || request.title.isBlank()) {
-			throw new IllegalArgumentException("제목은 필수입니다!");
+	public PostDetailResponse createPost(CreatePostRequest request) {
+		Post newPost = postRepository.save(PostMapper.toDomain(postRepository.generateId(), request));
+		return PostMapper.toDetailResponse(newPost);
+	}
+
+	// READALL
+	public PostListResponse getAllPosts() {
+		return PostMapper.toListResponse(postRepository.findAll());
+	}
+
+	// READ
+	public PostDetailResponse getPost(long id) {
+		return PostMapper.toDetailResponse(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
+	}
+
+	// UPDATE
+	public PostDetailResponse updatePost(long id, UpdatePostRequest request) {
+		Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+		post.update(request.title(), request.content(), request.hashtags());
+		return PostMapper.toDetailResponse(post);
+	}
+
+	// DELETE
+	public void deletePost(long id) {
+		if (!postRepository.deleteById(id)) {
+			throw new PostNotFoundException();
 		}
-		if (request.content == null || request.content.isBlank()) {
-			throw new IllegalArgumentException("내용은 필수입니다!");
-		}
-		String createdAt = java.time.LocalDateTime.now().toString();
-		Post post = new Post(postRepository.generateId(), request.title, request.content, request.author, createdAt);
-		postRepository.save(post);
-		return new CreatePostResponse(post.getId(), "게시글 등록 완료!");
-	}
-
-	// READ - 전체 📝 과제
-	public List<PostResponse> getAllPosts() {
-		// TODO
-		return null;
-	}
-
-	// READ - 단건 📝 과제
-	public PostResponse getPost(Long id) {
-		// TODO
-		return null;
-	}
-
-	// UPDATE 📝 과제
-	public void updatePost(Long id, String newTitle, String newContent) {
-		// TODO
-	}
-
-	// DELETE 📝 과제
-	public void deletePost(Long id) {
-		// TODO
 	}
 }
