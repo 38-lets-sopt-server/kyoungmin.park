@@ -7,7 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.sopt.post.domain.Post;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostRepository {
 	private final ConcurrentHashMap<Long, Post> postList = new ConcurrentHashMap<>();
 	private final AtomicLong nextId = new AtomicLong(1);
