@@ -1,16 +1,16 @@
 package org.sopt.post.repository;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.sopt.post.domain.Post;
 
 public class PostRepository {
-	private final Map<Long, Post> postList = new HashMap<>();
-	private Long nextId = 1L;
+	private final ConcurrentHashMap<Long, Post> postList = new ConcurrentHashMap<>();
+	private final AtomicLong nextId = new AtomicLong(1);
 
 	public Post save(Post post) {
 		postList.put(post.getId(), post);
@@ -32,6 +32,6 @@ public class PostRepository {
 	}
 
 	public Long generateId() {
-		return nextId++;
+		return nextId.getAndIncrement();
 	}
 }
