@@ -1,7 +1,7 @@
 package org.sopt.post.controller;
 
 import org.sopt.global.exception.BaseException;
-import org.sopt.global.response.CommonResponse;
+import org.sopt.global.response.ApiResponse;
 import org.sopt.global.status.SuccessStatus;
 import org.sopt.post.controller.mapper.PostPresentationMapper;
 import org.sopt.post.controller.dto.request.CreatePostRequest;
@@ -31,57 +31,57 @@ public class PostController {
 
 	// POST /posts
 	@PostMapping
-	public CommonResponse<PostDetailResponse> createPost(@RequestBody CreatePostRequest request) {
+	public ApiResponse<PostDetailResponse> createPost(@RequestBody CreatePostRequest request) {
 		try {
 			request.validate();
 			PostDetailInfo response = postService.createPost(PostPresentationMapper.toCommand(request));
-			return CommonResponse.success(SuccessStatus.POST_CREATED, PostPresentationMapper.toDetailOutput(response));
+			return ApiResponse.success(SuccessStatus.POST_CREATED, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
-			return CommonResponse.failure(e.getFailureStatus());
+			return ApiResponse.failure(e.getFailureStatus());
 		}
 	}
 
 	// GET /posts
 	@GetMapping
-	public CommonResponse<PostListResponse> getAllPosts() {
+	public ApiResponse<PostListResponse> getAllPosts() {
 		PostListInfo response = postService.getAllPosts();
-		return CommonResponse.success(SuccessStatus.POST_LIST_FOUND, PostPresentationMapper.toListOutput(response));
+		return ApiResponse.success(SuccessStatus.POST_LIST_FOUND, PostPresentationMapper.toListOutput(response));
 	}
 
 	// GET /posts/{id}
 	@GetMapping(path = "/{postId}")
-	public CommonResponse<PostDetailResponse> getPost(@PathVariable(name = "postId") long id) {
+	public ApiResponse<PostDetailResponse> getPost(@PathVariable(name = "postId") long id) {
 		try {
 			PostDetailInfo response = postService.getPost(id);
-			return CommonResponse.success(SuccessStatus.POST_FOUND, PostPresentationMapper.toDetailOutput(response));
+			return ApiResponse.success(SuccessStatus.POST_FOUND, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
-			return CommonResponse.failure(e.getFailureStatus());
+			return ApiResponse.failure(e.getFailureStatus());
 		}
 	}
 
 	// PUT /posts/{id}
 	@PutMapping(path = "/{postId}")
-	public CommonResponse<PostDetailResponse> updatePost(
+	public ApiResponse<PostDetailResponse> updatePost(
 			@PathVariable(name = "postId") long id,
 			@RequestBody UpdatePostRequest request
 	) {
 		try {
 			request.validate();
 			PostDetailInfo response = postService.updatePost(request.id(), PostPresentationMapper.toCommand(request));
-			return CommonResponse.success(SuccessStatus.POST_UPDATED, PostPresentationMapper.toDetailOutput(response));
+			return ApiResponse.success(SuccessStatus.POST_UPDATED, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
-			return CommonResponse.failure(e.getFailureStatus());
+			return ApiResponse.failure(e.getFailureStatus());
 		}
 	}
 
 	// DELETE /posts/{id}
 	@DeleteMapping(path = "/{postId}")
-	public CommonResponse<Void> deletePost(@PathVariable(name = "postId") long id) {
+	public ApiResponse<Void> deletePost(@PathVariable(name = "postId") long id) {
 		try {
 			postService.deletePost(id);
-			return CommonResponse.success(SuccessStatus.POST_DELETED);
+			return ApiResponse.success(SuccessStatus.POST_DELETED);
 		} catch (BaseException e) {
-			return CommonResponse.failure(e.getFailureStatus());
+			return ApiResponse.failure(e.getFailureStatus());
 		}
 	}
 }
