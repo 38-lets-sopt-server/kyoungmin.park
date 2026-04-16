@@ -2,10 +2,10 @@ package org.sopt.post.view;
 
 import java.util.Scanner;
 
-import org.sopt.post.model.input.UpdatePostInput;
+import org.sopt.post.controller.dto.request.UpdatePostRequest;
 
 public class PostUpdateView {
-	public static UpdatePostInput getUpdatePostInput(Scanner sc) {
+	public static UpdatePostRequest getUpdatePostInput(Scanner sc) {
 		printEnterPostIdMsg();
 		long id = sc.nextLong();
 		sc.nextLine();
@@ -19,7 +19,7 @@ public class PostUpdateView {
 		printEnterHashtagsMsg();
 		String hashtags = sc.nextLine();
 
-		return new UpdatePostInput(id, title, content, hashtags);
+		return new UpdatePostRequest(id, title, content, hashtags);
 	}
 
 	private static void printEnterPostIdMsg() {

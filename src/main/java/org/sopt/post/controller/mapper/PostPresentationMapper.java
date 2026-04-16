@@ -5,15 +5,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.sopt.post.dto.request.CreatePostRequest;
-import org.sopt.post.dto.request.UpdatePostRequest;
-import org.sopt.post.dto.response.PostDetailResponse;
-import org.sopt.post.dto.response.PostListResponse;
-import org.sopt.post.model.input.CreatePostInput;
-import org.sopt.post.model.input.UpdatePostInput;
-import org.sopt.post.model.output.PostDetailOutput;
-import org.sopt.post.model.output.PostListOutput;
-import org.sopt.post.model.output.PostSummaryOutput;
+import org.sopt.post.controller.dto.request.CreatePostRequest;
+import org.sopt.post.controller.dto.request.UpdatePostRequest;
+import org.sopt.post.controller.dto.response.PostDetailResponse;
+import org.sopt.post.controller.dto.response.PostListResponse;
+import org.sopt.post.controller.dto.response.PostSummaryResponse;
+import org.sopt.post.service.dto.command.CreatePostCommand;
+import org.sopt.post.service.dto.command.UpdatePostCommand;
+import org.sopt.post.service.dto.information.PostDetailInfo;
+import org.sopt.post.service.dto.information.PostListInfo;
 
 public class PostPresentationMapper {
 	private PostPresentationMapper() {}
@@ -25,8 +25,8 @@ public class PostPresentationMapper {
 	private static final DateTimeFormatter ENTIRE_FORMATTER =
 			DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
 
-	public static CreatePostRequest toRequest(CreatePostInput input) {
-		return new CreatePostRequest(
+	public static CreatePostCommand toCommand(CreatePostRequest input) {
+		return new CreatePostCommand(
 				input.title(),
 				input.content(),
 				input.author(),
@@ -35,16 +35,16 @@ public class PostPresentationMapper {
 		);
 	}
 
-	public static UpdatePostRequest toRequest(UpdatePostInput input) {
-		return new UpdatePostRequest(
+	public static UpdatePostCommand toCommand(UpdatePostRequest input) {
+		return new UpdatePostCommand(
 				input.title(),
 				input.content(),
 				input.hashtags()
 		);
 	}
 
-	public static PostDetailOutput toDetailOutput(PostDetailResponse response) {
-		return new PostDetailOutput(
+	public static PostDetailResponse toDetailOutput(PostDetailInfo response) {
+		return new PostDetailResponse(
 				response.id(),
 				response.title(),
 				response.content(),
@@ -58,9 +58,9 @@ public class PostPresentationMapper {
 		);
 	}
 
-	public static PostListOutput toListOutput(PostListResponse response) {
-		List<PostSummaryOutput> summaries = response.posts().stream()
-				.map((summaryResponse) -> new PostSummaryOutput(
+	public static PostListResponse toListOutput(PostListInfo response) {
+		List<PostSummaryResponse> summaries = response.posts().stream()
+				.map((summaryResponse) -> new PostSummaryResponse(
 						summaryResponse.id(),
 						summaryResponse.title(),
 						summaryResponse.content(),
@@ -69,7 +69,7 @@ public class PostPresentationMapper {
 						formatCreatedAt(summaryResponse.createdAt()),
 						summaryResponse.author()
 				)).toList();
-		return new PostListOutput(summaries, response.totalCount());
+		return new PostListResponse(summaries, response.totalCount());
 	}
 
 	private static String formatHashtags(List<String> hashtags) {

@@ -1,10 +1,10 @@
-package org.sopt.post.model.input;
+package org.sopt.post.controller.dto.request;
 
 import org.sopt.global.status.FailureStatus;
 import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
 
-public record UpdatePostInput(
+public record UpdatePostRequest(
 		long id,
 		String title,
 		String content,

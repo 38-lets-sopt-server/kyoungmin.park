@@ -2,10 +2,10 @@ package org.sopt.post.view;
 
 import java.util.Scanner;
 
-import org.sopt.post.model.input.CreatePostInput;
+import org.sopt.post.controller.dto.request.CreatePostRequest;
 
 public class PostCreateView {
-	public static CreatePostInput getCreatePostInput(Scanner sc) {
+	public static CreatePostRequest getCreatePostInput(Scanner sc) {
 		printEnterTitleMsg();
 		String title = sc.nextLine();
 
@@ -21,7 +21,7 @@ public class PostCreateView {
 		printEnterHashtagsMsg();
 		String hashtags = sc.nextLine();
 
-		return new CreatePostInput(title, content, author, isAnonymous, hashtags);
+		return new CreatePostRequest(title, content, author, isAnonymous, hashtags);
 	}
 
 	private static void printEnterTitleMsg() {

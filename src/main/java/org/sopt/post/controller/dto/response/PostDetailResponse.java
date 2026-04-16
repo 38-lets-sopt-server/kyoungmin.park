@@ -1,6 +1,6 @@
-package org.sopt.post.model.output;
+package org.sopt.post.controller.dto.response;
 
-public record PostDetailOutput(
+public record PostDetailResponse(
 		long id,
 		String title,
 		String content,

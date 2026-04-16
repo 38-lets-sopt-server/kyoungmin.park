@@ -3,7 +3,7 @@ package org.sopt.post.view;
 import java.util.Scanner;
 
 import org.sopt.global.response.CommonResponse;
-import org.sopt.post.model.output.PostDetailOutput;
+import org.sopt.post.controller.dto.response.PostDetailResponse;
 
 public class PostDetailView {
 	public static long getPostId(Scanner scanner) {
@@ -13,10 +13,10 @@ public class PostDetailView {
 		return id;
 	}
 
-	public static void printPostDetail(CommonResponse<PostDetailOutput> response) {
+	public static void printPostDetail(CommonResponse<PostDetailResponse> response) {
 		if (response.isSuccess()) {
 			System.out.println("\n" + response.message());
-			PostDetailOutput post = response.data();
+			PostDetailResponse post = response.data();
 			printPostDetailcomponent(post);
 		} else {
 			System.out.println("\n[요청 처리에 실패했습니다] : " + response.message());
@@ -28,7 +28,7 @@ public class PostDetailView {
 		System.out.print("> ");
 	}
 
-	private static void printPostDetailcomponent(PostDetailOutput post) {
+	private static void printPostDetailcomponent(PostDetailResponse post) {
 		System.out.println("\n=== [게시글 상세 정보] ===");
 		System.out.println("ID: " + post.id());
 		System.out.println("작성자: " + post.author());

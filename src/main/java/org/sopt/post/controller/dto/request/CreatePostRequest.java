@@ -1,4 +1,4 @@
-package org.sopt.post.model.input;
+package org.sopt.post.controller.dto.request;
 
 import org.sopt.global.status.FailureStatus;
 import org.sopt.post.exception.InvalidAnonymousFlagException;
@@ -6,7 +6,7 @@ import org.sopt.post.exception.InvalidAuthorException;
 import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
 
-public record CreatePostInput(
+public record CreatePostRequest(
 		String title,
 		String content,
 		String author,

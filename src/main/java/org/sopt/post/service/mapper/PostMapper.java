@@ -3,16 +3,16 @@ package org.sopt.post.service.mapper;
 import java.time.LocalDateTime;
 
 import org.sopt.post.domain.Post;
-import org.sopt.post.dto.request.CreatePostRequest;
-import org.sopt.post.dto.response.PostDetailResponse;
-import org.sopt.post.dto.response.PostListResponse;
+import org.sopt.post.service.dto.command.CreatePostCommand;
+import org.sopt.post.service.dto.information.PostDetailInfo;
+import org.sopt.post.service.dto.information.PostListInfo;
 
 import java.util.List;
 
 public class PostMapper {
 	private PostMapper() {}
 
-	public static Post toDomain(long id, CreatePostRequest request) {
+	public static Post toDomain(long id, CreatePostCommand request) {
 		return new Post(
 				id,
 				request.title(),
@@ -27,8 +27,8 @@ public class PostMapper {
 		);
 	}
 
-	public static PostDetailResponse toDetailResponse(Post post) {
-		return new PostDetailResponse(
+	public static PostDetailInfo toDetailInfo(Post post) {
+		return new PostDetailInfo(
 				post.getId(),
 				post.getTitle(),
 				post.getContent(),
@@ -42,7 +42,7 @@ public class PostMapper {
 		);
 	}
 
-	public static PostListResponse toListResponse(List<Post> posts) {
-		return PostListResponse.of(posts, posts.size());
+	public static PostListInfo toListInfo(List<Post> posts) {
+		return PostListInfo.of(posts, posts.size());
 	}
 }

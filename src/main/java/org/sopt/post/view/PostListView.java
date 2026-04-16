@@ -1,13 +1,13 @@
 package org.sopt.post.view;
 
 import org.sopt.global.response.CommonResponse;
-import org.sopt.post.model.output.PostListOutput;
-import org.sopt.post.model.output.PostSummaryOutput;
+import org.sopt.post.controller.dto.response.PostListResponse;
+import org.sopt.post.controller.dto.response.PostSummaryResponse;
 
 public class PostListView {
-	public static void printPostList(CommonResponse<PostListOutput> response) {
+	public static void printPostList(CommonResponse<PostListResponse> response) {
 		if (response.isSuccess()) {
-			PostListOutput data = response.data();
+			PostListResponse data = response.data();
 			System.out.println("\n" + response.message());
 			System.out.println("\n전체 게시글 수: " + data.totalCount());
 
@@ -18,7 +18,7 @@ public class PostListView {
 
 			System.out.println("\n=== [게시글 목록] ===");
 
-			for (PostSummaryOutput post : data.posts()) {
+			for (PostSummaryResponse post : data.posts()) {
 				printPostListcomponent(post);
 			}
 		} else {
@@ -26,7 +26,7 @@ public class PostListView {
 		}
 	}
 
-	private static void printPostListcomponent(PostSummaryOutput post) {
+	private static void printPostListcomponent(PostSummaryResponse post) {
 		System.out.printf("ID: %d%n", post.id());
 		System.out.printf("제목: %-20s%n", truncateText(post.title()));
 		System.out.printf("내용: %-20s%n", truncateText(post.content()));

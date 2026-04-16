@@ -4,13 +4,13 @@ import org.sopt.global.exception.BaseException;
 import org.sopt.global.response.CommonResponse;
 import org.sopt.global.status.SuccessStatus;
 import org.sopt.post.controller.mapper.PostPresentationMapper;
-import org.sopt.post.service.dto.response.PostDetailResponse;
-import org.sopt.post.service.dto.response.PostListResponse;
-import org.sopt.post.model.input.CreatePostInput;
-import org.sopt.post.model.input.UpdatePostInput;
-import org.sopt.post.model.output.PostDetailOutput;
-import org.sopt.post.model.output.PostListOutput;
+import org.sopt.post.controller.dto.request.CreatePostRequest;
+import org.sopt.post.controller.dto.request.UpdatePostRequest;
+import org.sopt.post.controller.dto.response.PostDetailResponse;
+import org.sopt.post.controller.dto.response.PostListResponse;
 import org.sopt.post.service.PostService;
+import org.sopt.post.service.dto.information.PostDetailInfo;
+import org.sopt.post.service.dto.information.PostListInfo;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,10 +31,10 @@ public class PostController {
 
 	// POST /posts
 	@PostMapping
-	public CommonResponse<PostDetailOutput> createPost(@RequestBody CreatePostInput input) {
+	public CommonResponse<PostDetailResponse> createPost(@RequestBody CreatePostRequest request) {
 		try {
-			input.validate();
-			PostDetailResponse response = postService.createPost(PostPresentationMapper.toRequest(input));
+			request.validate();
+			PostDetailInfo response = postService.createPost(PostPresentationMapper.toCommand(request));
 			return CommonResponse.success(SuccessStatus.POST_CREATED, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
 			return CommonResponse.failure(e.getFailureStatus());
@@ -43,16 +43,16 @@ public class PostController {
 
 	// GET /posts
 	@GetMapping
-	public CommonResponse<PostListOutput> getAllPosts() {
-		PostListResponse response = postService.getAllPosts();
+	public CommonResponse<PostListResponse> getAllPosts() {
+		PostListInfo response = postService.getAllPosts();
 		return CommonResponse.success(SuccessStatus.POST_LIST_FOUND, PostPresentationMapper.toListOutput(response));
 	}
 
 	// GET /posts/{id}
 	@GetMapping(path = "/{postId}")
-	public CommonResponse<PostDetailOutput> getPost(@PathVariable(name = "postId") long id) {
+	public CommonResponse<PostDetailResponse> getPost(@PathVariable(name = "postId") long id) {
 		try {
-			PostDetailResponse response = postService.getPost(id);
+			PostDetailInfo response = postService.getPost(id);
 			return CommonResponse.success(SuccessStatus.POST_FOUND, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
 			return CommonResponse.failure(e.getFailureStatus());
@@ -61,13 +61,13 @@ public class PostController {
 
 	// PUT /posts/{id}
 	@PutMapping(path = "/{postId}")
-	public CommonResponse<PostDetailOutput> updatePost(
+	public CommonResponse<PostDetailResponse> updatePost(
 			@PathVariable(name = "postId") long id,
-			@RequestBody UpdatePostInput input
+			@RequestBody UpdatePostRequest request
 	) {
 		try {
-			input.validate();
-			PostDetailResponse response = postService.updatePost(input.id(), PostPresentationMapper.toRequest(input));
+			request.validate();
+			PostDetailInfo response = postService.updatePost(request.id(), PostPresentationMapper.toCommand(request));
 			return CommonResponse.success(SuccessStatus.POST_UPDATED, PostPresentationMapper.toDetailOutput(response));
 		} catch (BaseException e) {
 			return CommonResponse.failure(e.getFailureStatus());

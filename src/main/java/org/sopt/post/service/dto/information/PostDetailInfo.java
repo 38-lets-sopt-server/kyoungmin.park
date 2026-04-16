@@ -1,9 +1,9 @@
-package org.sopt.post.dto.response;
+package org.sopt.post.service.dto.information;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record PostDetailResponse(
+public record PostDetailInfo(
 		long id,
 		String title,
 		String content,
