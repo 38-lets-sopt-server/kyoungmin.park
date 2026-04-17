@@ -1,5 +1,7 @@
 package org.sopt.post.controller.dto.response;
 
+import java.util.List;
+
 public record PostDetailResponse(
 		long id,
 		String title,
@@ -7,7 +9,7 @@ public record PostDetailResponse(
 		String author,
 		String createdAt,
 		boolean isAnonymous,
-		String hashtags,
+		List<String> hashtags,
 		int likeCount,
 		int commentCount,
 		int scrapCount

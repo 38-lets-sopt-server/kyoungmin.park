@@ -3,7 +3,6 @@ package org.sopt.post.controller.mapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.sopt.post.controller.dto.request.CreatePostRequest;
 import org.sopt.post.controller.dto.request.UpdatePostRequest;
@@ -25,21 +24,21 @@ public class PostPresentationMapper {
 	private static final DateTimeFormatter ENTIRE_FORMATTER =
 			DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
 
-	public static CreatePostCommand toCommand(CreatePostRequest input) {
+	public static CreatePostCommand toCommand(CreatePostRequest request) {
 		return new CreatePostCommand(
-				input.title(),
-				input.content(),
-				input.author(),
-				input.isAnonymous(),
-				input.hashtags()
+				request.title(),
+				request.content(),
+				request.author(),
+				request.isAnonymous(),
+				request.hashtags()
 		);
 	}
 
-	public static UpdatePostCommand toCommand(UpdatePostRequest input) {
+	public static UpdatePostCommand toCommand(UpdatePostRequest request) {
 		return new UpdatePostCommand(
-				input.title(),
-				input.content(),
-				input.hashtags()
+				request.title(),
+				request.content(),
+				request.hashtags()
 		);
 	}
 
@@ -51,7 +50,7 @@ public class PostPresentationMapper {
 				info.author(),
 				formatEntireCreatedAt(info.createdAt()),
 				info.isAnonymous(),
-				formatHashtags(info.hashtags()),
+				info.hashtags(),
 				info.likeCount(),
 				info.commentCount(),
 				info.scrapCount()
@@ -70,15 +69,6 @@ public class PostPresentationMapper {
 						summaryResponse.author()
 				)).toList();
 		return new PostListResponse(summaries, info.totalCount());
-	}
-
-	private static String formatHashtags(List<String> hashtags) {
-		if (hashtags == null || hashtags.isEmpty()) {
-			return "";
-		}
-		return hashtags.stream()
-				.map(tag -> "#" + tag)
-				.collect(Collectors.joining(" "));
 	}
 
 	private static String formatCreatedAt(LocalDateTime createdAt) {

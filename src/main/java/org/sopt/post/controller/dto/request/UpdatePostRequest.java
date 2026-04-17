@@ -1,5 +1,7 @@
 package org.sopt.post.controller.dto.request;
 
+import java.util.List;
+
 import org.sopt.global.status.FailureStatus;
 import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
@@ -8,7 +10,7 @@ public record UpdatePostRequest(
 		long id,
 		String title,
 		String content,
-		String hashtags
+		List<String> hashtags
 ) {
 	public UpdatePostRequest {
 		this.validate(title, content);

@@ -1,7 +1,8 @@
 package org.sopt.post.controller.dto.request;
 
+import java.util.List;
+
 import org.sopt.global.status.FailureStatus;
-import org.sopt.post.exception.InvalidAnonymousFlagException;
 import org.sopt.post.exception.InvalidAuthorException;
 import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
@@ -10,14 +11,14 @@ public record CreatePostRequest(
 		String title,
 		String content,
 		String author,
-		String isAnonymous,
-		String hashtags
+		boolean isAnonymous,
+		List<String> hashtags
 ) {
 	public CreatePostRequest {
-		this.validate(title, content, author, isAnonymous);
+		this.validate(title, content, author);
 	}
 
-	private void validate(String title, String content, String author, String isAnonymous) {
+	private void validate(String title, String content, String author) {
 		if (title == null || title.isBlank()) {
 			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
 		}
@@ -26,12 +27,6 @@ public record CreatePostRequest(
 		}
 		if (author == null || author.isBlank()) {
 			throw new InvalidAuthorException();
-		}
-
-		if (isAnonymous == null ||
-				(!isAnonymous.equalsIgnoreCase("Y") &&
-						!isAnonymous.equalsIgnoreCase("N"))) {
-			throw new InvalidAnonymousFlagException();
 		}
 	}
 }
