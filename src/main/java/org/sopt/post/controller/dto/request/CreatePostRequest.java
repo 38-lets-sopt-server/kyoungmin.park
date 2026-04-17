@@ -13,7 +13,11 @@ public record CreatePostRequest(
 		String isAnonymous,
 		String hashtags
 ) {
-	public void validate() {
+	public CreatePostRequest {
+		this.validate(title, content, author, isAnonymous);
+	}
+
+	private void validate(String title, String content, String author, String isAnonymous) {
 		if (title == null || title.isBlank()) {
 			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
 		}

@@ -43,23 +43,23 @@ public class PostPresentationMapper {
 		);
 	}
 
-	public static PostDetailResponse toDetailOutput(PostDetailInfo response) {
+	public static PostDetailResponse toDetailResponse(PostDetailInfo info) {
 		return new PostDetailResponse(
-				response.id(),
-				response.title(),
-				response.content(),
-				response.author(),
-				formatEntireCreatedAt(response.createdAt()),
-				response.isAnonymous(),
-				formatHashtags(response.hashtags()),
-				response.likeCount(),
-				response.commentCount(),
-				response.scrapCount()
+				info.id(),
+				info.title(),
+				info.content(),
+				info.author(),
+				formatEntireCreatedAt(info.createdAt()),
+				info.isAnonymous(),
+				formatHashtags(info.hashtags()),
+				info.likeCount(),
+				info.commentCount(),
+				info.scrapCount()
 		);
 	}
 
-	public static PostListResponse toListOutput(PostListInfo response) {
-		List<PostSummaryResponse> summaries = response.posts().stream()
+	public static PostListResponse toListResponse(PostListInfo info) {
+		List<PostSummaryResponse> summaries = info.posts().stream()
 				.map((summaryResponse) -> new PostSummaryResponse(
 						summaryResponse.id(),
 						summaryResponse.title(),
@@ -69,7 +69,7 @@ public class PostPresentationMapper {
 						formatCreatedAt(summaryResponse.createdAt()),
 						summaryResponse.author()
 				)).toList();
-		return new PostListResponse(summaries, response.totalCount());
+		return new PostListResponse(summaries, info.totalCount());
 	}
 
 	private static String formatHashtags(List<String> hashtags) {

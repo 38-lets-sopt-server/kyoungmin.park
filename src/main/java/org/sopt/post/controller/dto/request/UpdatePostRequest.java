@@ -10,7 +10,11 @@ public record UpdatePostRequest(
 		String content,
 		String hashtags
 ) {
-	public void validate() {
+	public UpdatePostRequest {
+		this.validate(title, content);
+	}
+
+	private void validate(String title, String content) {
 		if (title == null || title.isBlank()) {
 			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
 		}
