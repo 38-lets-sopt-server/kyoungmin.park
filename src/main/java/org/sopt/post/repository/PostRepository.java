@@ -1,39 +1,18 @@
 package org.sopt.post.repository;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.sopt.post.domain.Post;
-import org.springframework.stereotype.Component;
 
-@Component
-public class PostRepository {
-	private final ConcurrentHashMap<Long, Post> postList = new ConcurrentHashMap<>();
-	private final AtomicLong nextId = new AtomicLong(1);
+public interface PostRepository {
+	Post save(Post post);
 
-	public Post save(Post post) {
-		postList.put(post.getId(), post);
-		return post;
-	}
+	List<Post> findAll();
 
-	public List<Post> findAll() {
-		return postList.values().stream()
-				.sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-				.toList();
-	}
+	Optional<Post> findById(long id);
 
-	public Optional<Post> findById(long id) {
-		return Optional.ofNullable(postList.get(id));
-	}
+	boolean deleteById(long id);
 
-	public boolean deleteById(long id) {
-		return postList.remove(id) != null;
-	}
-
-	public Long generateId() {
-		return nextId.getAndIncrement();
-	}
+	long generateId();
 }
