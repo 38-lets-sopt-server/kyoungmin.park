@@ -19,6 +19,7 @@ public class PostMapper {
 				request.content(),
 				request.author(),
 				LocalDateTime.now(),
+				request.boardType(),
 				request.isAnonymous(),
 				request.hashtags(),
 				0,

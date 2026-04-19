@@ -11,14 +11,15 @@ public record CreatePostRequest(
 		String title,
 		String content,
 		String author,
+		String boardType,
 		boolean isAnonymous,
 		List<String> hashtags
 ) {
 	public CreatePostRequest {
-		this.validate(title, content, author);
+		this.validate(title, content, author, boardType);
 	}
 
-	private void validate(String title, String content, String author) {
+	private void validate(String title, String content, String author, String boardType) {
 		if (title == null || title.isBlank()) {
 			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
 		}
@@ -26,6 +27,9 @@ public record CreatePostRequest(
 			throw new InvalidContentException();
 		}
 		if (author == null || author.isBlank()) {
+			throw new InvalidAuthorException();
+		}
+		if (boardType == null || boardType.isBlank()) {
 			throw new InvalidAuthorException();
 		}
 	}

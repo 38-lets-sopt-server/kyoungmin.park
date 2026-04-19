@@ -11,6 +11,7 @@ public class Post {
 	private String content;   // 목록(미리보기), 상세(전체) 화면 — 내용
 	private String author;    // 목록, 상세 화면 — 글쓴이
 	private LocalDateTime createdAt; // 목록, 상세 화면 — 작성 시각
+	private BoardType boardType;
 	private boolean isAnonymous;
 	private List<String> hashtags;
 	private int likeCount;
@@ -23,6 +24,7 @@ public class Post {
 			String content,
 			String author,
 			LocalDateTime createdAt,
+			BoardType boardType,
 			boolean isAnonymous,
 			List<String> hashtags,
 			int likeCount,
@@ -35,6 +37,7 @@ public class Post {
 		this.content = content;
 		this.author = author;
 		this.createdAt = createdAt;
+		this.boardType = boardType;
 		this.isAnonymous = isAnonymous;
 		this.hashtags = hashtags;
 		this.likeCount = likeCount;
@@ -47,6 +50,7 @@ public class Post {
 	public String getContent() { return content; }
 	public String getAuthor() { return isAnonymous ? "익명" : author; }
 	public LocalDateTime getCreatedAt() { return createdAt; }
+	public BoardType getBoardType() { return boardType; }
 	public boolean isAnonymous() { return isAnonymous; }
 	public List<String> getHashtags() { return hashtags; }
 	public int getLikeCount() { return likeCount; }

@@ -29,6 +29,7 @@ public class PostPresentationMapper {
 				request.title(),
 				request.content(),
 				request.author(),
+				request.boardType(),
 				request.isAnonymous(),
 				request.hashtags()
 		);
