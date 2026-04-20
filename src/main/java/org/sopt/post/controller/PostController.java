@@ -1,7 +1,9 @@
 package org.sopt.post.controller;
 
+import org.sopt.global.exception.InvalidRequestParamException;
 import org.sopt.global.response.ApiResponse;
-import org.sopt.global.status.SuccessStatus;
+import org.sopt.global.status.code.FailureCode;
+import org.sopt.post.code.SuccessCode;
 import org.sopt.post.controller.mapper.PostPresentationMapper;
 import org.sopt.post.controller.dto.request.CreatePostRequest;
 import org.sopt.post.controller.dto.request.UpdatePostRequest;
@@ -34,8 +36,8 @@ public class PostController {
 		PostDetailResponse response = PostPresentationMapper.toDetailResponse(
 				postService.createPost(PostPresentationMapper.toCommand(request)));
 
-		return ResponseEntity.status(SuccessStatus.POST_CREATED.getHttpStatus())
-				.body(ApiResponse.success(SuccessStatus.POST_CREATED, response));
+		return ResponseEntity.status(SuccessCode.POST_CREATED.getHttpStatus())
+				.body(ApiResponse.success(SuccessCode.POST_CREATED, response));
 	}
 
 	// GET /posts
@@ -44,19 +46,24 @@ public class PostController {
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size
 	) {
+		validatePage(page);
+		validateSize(size);
+
 		PostListResponse response = PostPresentationMapper.toListResponse(postService.getAllPosts(page, size));
 
-		return ResponseEntity.status(SuccessStatus.POST_LIST_FOUND.getHttpStatus())
-				.body(ApiResponse.success(SuccessStatus.POST_LIST_FOUND, response));
+		return ResponseEntity.status(SuccessCode.POST_LIST_FOUND.getHttpStatus())
+				.body(ApiResponse.success(SuccessCode.POST_LIST_FOUND, response));
 	}
 
 	// GET /posts/{id}
 	@GetMapping(path = "/{postId}")
 	public ResponseEntity<ApiResponse<PostDetailResponse>> getPost(@PathVariable(name = "postId") long id) {
+		validatePostId(id);
+
 		PostDetailResponse response = PostPresentationMapper.toDetailResponse(postService.getPost(id));
 
-		return ResponseEntity.status(SuccessStatus.POST_FOUND.getHttpStatus())
-				.body(ApiResponse.success(SuccessStatus.POST_FOUND, response));
+		return ResponseEntity.status(SuccessCode.POST_FOUND.getHttpStatus())
+				.body(ApiResponse.success(SuccessCode.POST_FOUND, response));
 	}
 
 	// PUT /posts/{id}
@@ -65,19 +72,45 @@ public class PostController {
 			@PathVariable(name = "postId") long id,
 			@RequestBody UpdatePostRequest request
 	) {
+		validatePostId(id);
+
 		PostDetailResponse response = PostPresentationMapper.toDetailResponse(
 				postService.updatePost(request.id(), PostPresentationMapper.toCommand(request)));
 
-		return ResponseEntity.status(SuccessStatus.POST_UPDATED.getHttpStatus())
-				.body(ApiResponse.success(SuccessStatus.POST_UPDATED, response));
+		return ResponseEntity.status(SuccessCode.POST_UPDATED.getHttpStatus())
+				.body(ApiResponse.success(SuccessCode.POST_UPDATED, response));
 	}
 
 	// DELETE /posts/{id}
 	@DeleteMapping(path = "/{postId}")
 	public ResponseEntity<ApiResponse<Void>> deletePost(@PathVariable(name = "postId") long id) {
+		validatePostId(id);
+
 		postService.deletePost(id);
 
-		return ResponseEntity.status(SuccessStatus.POST_DELETED.getHttpStatus())
-				.body(ApiResponse.success(SuccessStatus.POST_DELETED));
+		return ResponseEntity.status(SuccessCode.POST_DELETED.getHttpStatus())
+				.body(ApiResponse.success(SuccessCode.POST_DELETED));
+	}
+
+	private void validatePostId(long id) {
+		if (id < 1) {
+			throw new InvalidRequestParamException(FailureCode.INVALID_REQUEST_PARAMETER);
+		}
+	}
+
+	private void validatePage(int page) {
+		if (!isPositive(page)) {
+			throw new InvalidRequestParamException(FailureCode.INVALID_REQUEST_PARAMETER);
+		}
+	}
+
+	private void validateSize(int size) {
+		if(!isPositive(size)) {
+			throw new InvalidRequestParamException(FailureCode.INVALID_REQUEST_PARAMETER);
+		}
+	}
+
+	private boolean isPositive(int number) {
+		return number > 0;
 	}
 }

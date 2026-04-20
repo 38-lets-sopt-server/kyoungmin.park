@@ -2,8 +2,9 @@ package org.sopt.post.controller.dto.request;
 
 import java.util.List;
 
-import org.sopt.global.status.FailureStatus;
+import org.sopt.post.code.FailureCode;
 import org.sopt.post.exception.InvalidAuthorException;
+import org.sopt.post.exception.InvalidBoardTypeException;
 import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
 
@@ -21,7 +22,7 @@ public record CreatePostRequest(
 
 	private void validate(String title, String content, String author, String boardType) {
 		if (title == null || title.isBlank()) {
-			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
+			throw new InvalidTitleException(FailureCode.TITLE_REQUIRED);
 		}
 		if (content == null || content.isBlank()) {
 			throw new InvalidContentException();
@@ -30,7 +31,7 @@ public record CreatePostRequest(
 			throw new InvalidAuthorException();
 		}
 		if (boardType == null || boardType.isBlank()) {
-			throw new InvalidAuthorException();
+			throw new InvalidBoardTypeException();
 		}
 	}
 }

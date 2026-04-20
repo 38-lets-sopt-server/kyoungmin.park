@@ -1,6 +1,6 @@
 package org.sopt.post.domain;
 
-import org.sopt.global.status.FailureStatus;
+import org.sopt.post.code.FailureCode;
 import org.sopt.post.exception.InvalidTitleException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,10 +66,10 @@ public class Post {
 
 	private void validateTitle(String title) {
 		if (title == null || title.isBlank()) {
-			throw new InvalidTitleException(FailureStatus.TITLE_REQUIRED);
+			throw new InvalidTitleException(FailureCode.TITLE_REQUIRED);
 		}
 		if (title.codePointCount(0, title.length()) > 50) {
-			throw new InvalidTitleException(FailureStatus.INVALID_TITLE_LENGTH);
+			throw new InvalidTitleException(FailureCode.INVALID_TITLE_LENGTH);
 		}
 	}
 

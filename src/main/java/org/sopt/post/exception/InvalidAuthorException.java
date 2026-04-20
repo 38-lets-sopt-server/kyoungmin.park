@@ -1,10 +1,10 @@
 package org.sopt.post.exception;
 
 import org.sopt.global.exception.BaseException;
-import org.sopt.global.status.FailureStatus;
+import org.sopt.post.code.FailureCode;
 
 public class InvalidAuthorException extends BaseException {
 	public InvalidAuthorException() {
-		super(FailureStatus.AUTHOR_REQUIRED);
+		super(FailureCode.AUTHOR_REQUIRED);
 	}
 }
