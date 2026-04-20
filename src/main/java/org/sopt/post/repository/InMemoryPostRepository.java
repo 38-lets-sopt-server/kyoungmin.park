@@ -19,9 +19,11 @@ public class InMemoryPostRepository implements PostRepository {
 		return post;
 	}
 
-	public List<Post> findAll() {
+	public List<Post> findAll(int page, int size) {
 		return postList.values().stream()
 				.sorted(Comparator.comparing(Post::getCreatedAt).reversed())
+				.skip((long)(page - 1) * size)
+				.limit(size)
 				.toList();
 	}
 

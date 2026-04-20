@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,8 +40,11 @@ public class PostController {
 
 	// GET /posts
 	@GetMapping
-	public ResponseEntity<ApiResponse<PostListResponse>> getAllPosts() {
-		PostListResponse response = PostPresentationMapper.toListResponse(postService.getAllPosts());
+	public ResponseEntity<ApiResponse<PostListResponse>> getAllPosts(
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size
+	) {
+		PostListResponse response = PostPresentationMapper.toListResponse(postService.getAllPosts(page, size));
 
 		return ResponseEntity.status(SuccessStatus.POST_LIST_FOUND.getHttpStatus())
 				.body(ApiResponse.success(SuccessStatus.POST_LIST_FOUND, response));

@@ -25,8 +25,8 @@ public class PostService {
 	}
 
 	// READALL
-	public PostListInfo getAllPosts() {
-		return PostMapper.toListInfo(postRepository.findAll());
+	public PostListInfo getAllPosts(int page, int size) {
+		return PostMapper.toListInfo(postRepository.findAll(page, size));
 	}
 
 	// READ
