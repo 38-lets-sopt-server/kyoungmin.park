@@ -2,6 +2,7 @@ package org.sopt.post.service.dto.information;
 
 import java.time.LocalDateTime;
 
+import org.sopt.post.domain.BoardType;
 import org.sopt.post.domain.Post;
 
 public record PostSummaryInfo(
@@ -11,7 +12,8 @@ public record PostSummaryInfo(
 		int likeCount,
 		int commentCount,
 		LocalDateTime createdAt,
-		String author
+		String author,
+		BoardType boardType
 ) {
 	public static PostSummaryInfo from(Post post) {
 		return new PostSummaryInfo(
@@ -21,7 +23,8 @@ public record PostSummaryInfo(
 				post.getLikeCount(),
 				post.getCommentCount(),
 				post.getCreatedAt(),
-				post.getAuthor()
+				post.getAuthor(),
+				post.getBoardType()
 		);
 	}
 }

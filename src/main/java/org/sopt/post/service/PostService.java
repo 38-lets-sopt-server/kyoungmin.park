@@ -1,5 +1,6 @@
 package org.sopt.post.service;
 
+import org.sopt.post.domain.BoardType;
 import org.sopt.post.service.dto.command.CreatePostCommand;
 import org.sopt.post.service.dto.command.UpdatePostCommand;
 import org.sopt.post.service.dto.information.PostDetailInfo;
@@ -25,8 +26,9 @@ public class PostService {
 	}
 
 	// READALL
-	public PostListInfo getAllPosts(int page, int size) {
-		return PostMapper.toListInfo(postRepository.findAll(page, size));
+	public PostListInfo getAllPosts(int page, int size, String boardType) {
+		BoardType target = boardType == null ? null : BoardType.from(boardType);
+		return PostMapper.toListInfo(postRepository.findAll(page, size, target));
 	}
 
 	// READ

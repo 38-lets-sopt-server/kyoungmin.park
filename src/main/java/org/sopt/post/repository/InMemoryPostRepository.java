@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.sopt.post.domain.BoardType;
 import org.sopt.post.domain.Post;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,9 @@ public class InMemoryPostRepository implements PostRepository {
 		return post;
 	}
 
-	public List<Post> findAll(int page, int size) {
+	public List<Post> findAll(int page, int size, BoardType boardType) {
 		return postList.values().stream()
+				.filter(post -> boardType == null || post.getBoardType() == boardType)
 				.sorted(Comparator.comparing(Post::getCreatedAt).reversed())
 				.skip((long)(page - 1) * size)
 				.limit(size)

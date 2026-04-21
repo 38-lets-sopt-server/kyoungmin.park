@@ -33,6 +33,7 @@ public class PostMapper {
 				post.getId(),
 				post.getTitle(),
 				post.getContent(),
+				post.getBoardType(),
 				post.getAuthor(),
 				post.getCreatedAt(),
 				post.isAnonymous(),

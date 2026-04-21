@@ -44,12 +44,13 @@ public class PostController {
 	@GetMapping
 	public ResponseEntity<ApiResponse<PostListResponse>> getAllPosts(
 			@RequestParam(name = "page", defaultValue = "1") int page,
-			@RequestParam(name = "size", defaultValue = "10") int size
+			@RequestParam(name = "size", defaultValue = "10") int size,
+			@RequestParam(name = "boardType", required = false) String boardType
 	) {
 		validatePage(page);
 		validateSize(size);
 
-		PostListResponse response = PostPresentationMapper.toListResponse(postService.getAllPosts(page, size));
+		PostListResponse response = PostPresentationMapper.toListResponse(postService.getAllPosts(page, size, boardType));
 
 		return ResponseEntity.status(SuccessCode.POST_LIST_FOUND.getHttpStatus())
 				.body(ApiResponse.success(SuccessCode.POST_LIST_FOUND, response));
@@ -75,7 +76,7 @@ public class PostController {
 		validatePostId(id);
 
 		PostDetailResponse response = PostPresentationMapper.toDetailResponse(
-				postService.updatePost(request.id(), PostPresentationMapper.toCommand(request)));
+				postService.updatePost(id, PostPresentationMapper.toCommand(request)));
 
 		return ResponseEntity.status(SuccessCode.POST_UPDATED.getHttpStatus())
 				.body(ApiResponse.success(SuccessCode.POST_UPDATED, response));
