@@ -7,7 +7,6 @@ import org.sopt.post.exception.InvalidContentException;
 import org.sopt.post.exception.InvalidTitleException;
 
 public record UpdatePostRequest(
-		long id,
 		String title,
 		String content,
 		List<String> hashtags
