@@ -1,38 +1,46 @@
 package org.sopt.post.service;
 
-import org.sopt.post.dto.request.CreatePostRequest;
-import org.sopt.post.dto.request.UpdatePostRequest;
-import org.sopt.post.dto.response.PostDetailResponse;
-import org.sopt.post.dto.response.PostListResponse;
+import org.sopt.post.domain.BoardType;
+import org.sopt.post.service.dto.command.CreatePostCommand;
+import org.sopt.post.service.dto.command.UpdatePostCommand;
+import org.sopt.post.service.dto.information.PostDetailInfo;
+import org.sopt.post.service.dto.information.PostListInfo;
 import org.sopt.post.domain.Post;
 import org.sopt.post.exception.PostNotFoundException;
 import org.sopt.post.repository.PostRepository;
 import org.sopt.post.service.mapper.PostMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PostService {
-	private final PostRepository postRepository = new PostRepository();
+	private final PostRepository postRepository;
+
+	public PostService(PostRepository postRepository) {
+		this.postRepository = postRepository;
+	}
 
 	// CREATE
-	public PostDetailResponse createPost(CreatePostRequest request) {
-		Post newPost = postRepository.save(PostMapper.toDomain(postRepository.generateId(), request));
-		return PostMapper.toDetailResponse(newPost);
+	public PostDetailInfo createPost(CreatePostCommand command) {
+		Post newPost = postRepository.save(PostMapper.toDomain(postRepository.generateId(), command));
+		return PostMapper.toDetailInfo(newPost);
 	}
 
 	// READALL
-	public PostListResponse getAllPosts() {
-		return PostMapper.toListResponse(postRepository.findAll());
+	public PostListInfo getAllPosts(int page, int size, String boardType) {
+		BoardType target = boardType == null ? null : BoardType.from(boardType);
+		return PostMapper.toListInfo(postRepository.findAll(page, size, target));
 	}
 
 	// READ
-	public PostDetailResponse getPost(long id) {
-		return PostMapper.toDetailResponse(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
+	public PostDetailInfo getPost(long id) {
+		return PostMapper.toDetailInfo(postRepository.findById(id).orElseThrow(PostNotFoundException::new));
 	}
 
 	// UPDATE
-	public PostDetailResponse updatePost(long id, UpdatePostRequest request) {
+	public PostDetailInfo updatePost(long id, UpdatePostCommand command) {
 		Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
-		post.update(request.title(), request.content(), request.hashtags());
-		return PostMapper.toDetailResponse(post);
+		post.update(command.title(), command.content(), command.hashtags());
+		return PostMapper.toDetailInfo(post);
 	}
 
 	// DELETE

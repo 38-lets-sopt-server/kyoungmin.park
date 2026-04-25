@@ -1,37 +1,19 @@
 package org.sopt.post.repository;
 
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import org.sopt.post.domain.BoardType;
 import org.sopt.post.domain.Post;
 
-public class PostRepository {
-	private final Map<Long, Post> postList = new HashMap<>();
-	private Long nextId = 1L;
+public interface PostRepository {
+	Post save(Post post);
 
-	public Post save(Post post) {
-		postList.put(post.getId(), post);
-		return post;
-	}
+	List<Post> findAll(int page, int size, BoardType boardType);
 
-	public List<Post> findAll() {
-		return postList.values().stream()
-				.sorted(Comparator.comparing(Post::getCreatedAt).reversed())
-				.toList();
-	}
+	Optional<Post> findById(long id);
 
-	public Optional<Post> findById(long id) {
-		return Optional.ofNullable(postList.get(id));
-	}
+	boolean deleteById(long id);
 
-	public boolean deleteById(long id) {
-		return postList.remove(id) != null;
-	}
-
-	public Long generateId() {
-		return nextId++;
-	}
+	long generateId();
 }

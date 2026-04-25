@@ -1,14 +1,14 @@
-package org.sopt.post.dto.response;
+package org.sopt.post.controller.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public record PostDetailResponse(
 		long id,
 		String title,
 		String content,
+		String boardType,
 		String author,
-		LocalDateTime createdAt,
+		String createdAt,
 		boolean isAnonymous,
 		List<String> hashtags,
 		int likeCount,
