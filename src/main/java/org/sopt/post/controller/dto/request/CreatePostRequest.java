@@ -1,7 +1,5 @@
 package org.sopt.post.controller.dto.request;
 
-import java.util.List;
-
 import org.sopt.post.code.FailureCode;
 import org.sopt.post.exception.InvalidAuthorException;
 import org.sopt.post.exception.InvalidBoardTypeException;
@@ -13,8 +11,7 @@ public record CreatePostRequest(
 		String content,
 		String author,
 		String boardType,
-		boolean isAnonymous,
-		List<String> hashtags
+		boolean isAnonymous
 ) {
 	public CreatePostRequest {
 		this.validate(title, content, author, boardType);

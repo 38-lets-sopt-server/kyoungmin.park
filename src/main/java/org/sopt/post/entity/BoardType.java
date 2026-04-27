@@ -1,4 +1,4 @@
-package org.sopt.post.domain;
+package org.sopt.post.entity;
 
 import org.sopt.post.exception.InvalidBoardTypeException;
 

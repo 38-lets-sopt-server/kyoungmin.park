@@ -30,16 +30,14 @@ public class PostPresentationMapper {
 				request.content(),
 				request.author(),
 				request.boardType(),
-				request.isAnonymous(),
-				request.hashtags()
+				request.isAnonymous()
 		);
 	}
 
 	public static UpdatePostCommand toCommand(UpdatePostRequest request) {
 		return new UpdatePostCommand(
 				request.title(),
-				request.content(),
-				request.hashtags()
+				request.content()
 		);
 	}
 
@@ -52,7 +50,6 @@ public class PostPresentationMapper {
 				info.author(),
 				formatEntireCreatedAt(info.createdAt()),
 				info.isAnonymous(),
-				info.hashtags(),
 				info.likeCount(),
 				info.commentCount(),
 				info.scrapCount()
