@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query("""
 			SELECT p FROM Post p
 			JOIN FETCH p.member
-			WHERE p.id = :id
+			WHERE p.id = :postId
 			""")
 	Optional<Post> findByIdWithMember(@Param("postId") Long postId);
 
@@ -30,7 +30,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	@Query(nativeQuery = true, value = """
 			SELECT * FROM post p
-			WHERE MATCH(p.title) AGAINST(:title IN NATURAL LANGUAGE MODE)
+			WHERE MATCH(p.title) AGAINST(:title IN BOOLEAN MODE)
 			LIMIT :limit OFFSET :offset
 			""")
 	List<Post> findByTitle(@Param("title") String title,
