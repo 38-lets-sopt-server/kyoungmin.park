@@ -4,6 +4,7 @@ import java.util.List;
 
 public record PostListInfo(
 		List<PostSummaryInfo> posts,
-		long totalCount
+		int currentPage,
+		boolean hasNext
 ) {
 }

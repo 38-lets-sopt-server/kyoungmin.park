@@ -4,6 +4,7 @@ import java.util.List;
 
 public record PostListResponse(
 		List<PostSummaryResponse> posts,
-		long totalCount
+		int currentPage,
+		boolean hasNext
 ) {
 }

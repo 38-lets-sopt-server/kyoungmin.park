@@ -68,7 +68,7 @@ public class PostPresentationMapper {
 						formatCreatedAt(summaryResponse.createdAt()),
 						summaryResponse.author()
 				)).toList();
-		return new PostListResponse(summaries, info.totalCount());
+		return new PostListResponse(summaries, info.currentPage(), info.hasNext());
 	}
 
 	private static String formatCreatedAt(LocalDateTime createdAt) {

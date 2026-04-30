@@ -40,12 +40,12 @@ public class PostMapper {
 		);
 	}
 
-	public static PostListInfo toListInfo(List<Post> posts, int totalCount) {
+	public static PostListInfo toListInfo(List<Post> posts, int currentPage, boolean hasNext) {
 		List<PostSummaryInfo> postSummaries = posts.stream()
 				.map(PostMapper::toSummaryInfo)
 				.toList();
 
-		return new PostListInfo(postSummaries, totalCount);
+		return new PostListInfo(postSummaries, currentPage, hasNext);
 	}
 
 	private static PostSummaryInfo toSummaryInfo(Post post) {
