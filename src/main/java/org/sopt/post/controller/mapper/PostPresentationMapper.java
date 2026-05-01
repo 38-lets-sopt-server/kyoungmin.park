@@ -28,7 +28,6 @@ public class PostPresentationMapper {
 		return new CreatePostCommand(
 				request.title(),
 				request.content(),
-				request.author(),
 				request.boardType(),
 				request.isAnonymous()
 		);
