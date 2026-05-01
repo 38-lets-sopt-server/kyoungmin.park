@@ -26,18 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PostService {
 	private final PostRepository postRepository;
-	private final PostRepositoryCustom postRepositoryCustom;
 	private final PostLikeRepository postLikeRepository;
 	private final MemberRepository memberRepository;
 
 	public PostService(
 			PostRepository postRepository,
-			PostRepositoryCustom postRepositoryCustom,
 			PostLikeRepository postLikeRepository,
 			MemberRepository memberRepository
 	) {
 		this.postRepository = postRepository;
-		this.postRepositoryCustom = postRepositoryCustom;
 		this.postLikeRepository = postLikeRepository;
 		this.memberRepository = memberRepository;
 	}
@@ -62,7 +59,7 @@ public class PostService {
 
 	public PostListInfo getPostsByTitle(String title, int page, int size) {
 		Pageable pageable = PageRequest.of(page - 1, size);
-		Slice<Post> posts = postRepositoryCustom.searchByTitle(title, pageable);
+		Slice<Post> posts = postRepository.searchByTitle(title, pageable);
 
 		return PostMapper.toListInfo(posts.getContent(), posts.getNumber() + 1, posts.hasNext());
 	}
