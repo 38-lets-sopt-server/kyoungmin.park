@@ -28,7 +28,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping(path = "/api/v1/posts")
-public class PostController {
+public class PostController implements PostControllerDocs {
 	private final PostService postService;
 
 	public PostController(PostService postService) {
