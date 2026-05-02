@@ -22,9 +22,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "post",
-indexes = {
-		@Index(name = "idx_post_member_id", columnList = "member_id")
-})
+		indexes = {
+				@Index(name = "idx_post_member_id", columnList = "member_id")
+		})
 public class Post extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,15 +79,41 @@ public class Post extends BaseTimeEntity {
 		this.member = member;
 	}
 
-	public Long getId() { return id; }
-	public String getTitle() { return title; }
-	public String getContent() { return content; }
-	public BoardType getBoardType() { return boardType; }
-	public boolean isAnonymous() { return isAnonymous; }
-	public int getLikeCount() { return likeCount; }
-	public int getCommentCount() { return commentCount; }
-	public int getScrapCount() { return scrapCount; }
-	public Member getMember() { return member; }
+	public Long getId() {
+		return id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public BoardType getBoardType() {
+		return boardType;
+	}
+
+	public boolean isAnonymous() {
+		return isAnonymous;
+	}
+
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public int getScrapCount() {
+		return scrapCount;
+	}
+
+	public Member getMember() {
+		return member;
+	}
 
 	public void update(String title, String content) {
 		validateTitle(title);

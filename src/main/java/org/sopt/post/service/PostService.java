@@ -7,7 +7,6 @@ import org.sopt.member.repository.MemberRepository;
 import org.sopt.post.entity.BoardType;
 import org.sopt.post.entity.PostLike;
 import org.sopt.post.repository.PostLikeRepository;
-import org.sopt.post.repository.PostRepositoryCustom;
 import org.sopt.post.service.dto.command.CreatePostCommand;
 import org.sopt.post.service.dto.command.UpdatePostCommand;
 import org.sopt.post.service.dto.information.PostDetailInfo;
@@ -45,6 +44,7 @@ public class PostService {
 		Member author = memberRepository.findById(memberId)
 				.orElseThrow(MemberNotfoundException::new);
 		Post newPost = postRepository.save(PostMapper.toDomain(command, author));
+
 		return PostMapper.toDetailInfo(newPost);
 	}
 

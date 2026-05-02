@@ -62,7 +62,7 @@ public class PostMapper {
 	}
 
 	private static String resolveAuthorName(Post post) {
-		if(post.isAnonymous()){
+		if (post.isAnonymous()) {
 			return "익명";
 		}
 		return post.getMember().getNickname();

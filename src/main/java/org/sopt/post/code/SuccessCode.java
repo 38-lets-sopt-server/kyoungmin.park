@@ -4,7 +4,7 @@ import org.sopt.global.status.SuccessStatus;
 import org.springframework.http.HttpStatus;
 
 public enum SuccessCode implements SuccessStatus {
-	POST_CREATED( HttpStatus.CREATED, "게시글 등록 완료!"),
+	POST_CREATED(HttpStatus.CREATED, "게시글 등록 완료!"),
 	POST_FOUND(HttpStatus.OK, "게시글 조회 완료!"),
 	POST_LIST_FOUND(HttpStatus.OK, "게시글 목록 조회 완료!"),
 	POST_UPDATED(HttpStatus.OK, "게시글 수정 완료!"),

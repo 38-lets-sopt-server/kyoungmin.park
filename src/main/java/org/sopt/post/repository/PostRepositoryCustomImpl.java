@@ -30,10 +30,10 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 	@Override
 	public Slice<Post> searchByTitle(String title, Pageable pageable) {
 		List<Long> ids = em.createNativeQuery("""
-                SELECT p.id FROM post p
-                WHERE MATCH(p.title) AGAINST(:title IN BOOLEAN MODE)
-                LIMIT :limit OFFSET :offset
-                """)
+						SELECT p.id FROM post p
+						WHERE MATCH(p.title) AGAINST(:title IN BOOLEAN MODE)
+						LIMIT :limit OFFSET :offset
+						""")
 				.setParameter("title", title)
 				.setParameter("limit", pageable.getPageSize() + 1)
 				.setParameter("offset", pageable.getOffset())

@@ -16,7 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends BaseExceptionHandler{
+public class GlobalExceptionHandler extends BaseExceptionHandler {
 	@ExceptionHandler(BaseException.class)
 	protected ResponseEntity<ApiResponse<Void>> handleBaseException(BaseException e) {
 		return buildErrorResponse(e.getFailureStatus());
