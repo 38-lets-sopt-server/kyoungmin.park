@@ -1,26 +1,11 @@
 package org.sopt.post.controller.dto.request;
 
-import java.util.List;
-
-import org.sopt.post.code.FailureCode;
-import org.sopt.post.exception.InvalidContentException;
-import org.sopt.post.exception.InvalidTitleException;
+import jakarta.validation.constraints.NotBlank;
 
 public record UpdatePostRequest(
+		@NotBlank
 		String title,
-		String content,
-		List<String> hashtags
+		@NotBlank
+		String content
 ) {
-	public UpdatePostRequest {
-		this.validate(title, content);
-	}
-
-	private void validate(String title, String content) {
-		if (title == null || title.isBlank()) {
-			throw new InvalidTitleException(FailureCode.TITLE_REQUIRED);
-		}
-		if (content == null || content.isBlank()) {
-			throw new InvalidContentException();
-		}
-	}
 }

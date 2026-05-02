@@ -1,37 +1,14 @@
 package org.sopt.post.controller.dto.request;
 
-import java.util.List;
-
-import org.sopt.post.code.FailureCode;
-import org.sopt.post.exception.InvalidAuthorException;
-import org.sopt.post.exception.InvalidBoardTypeException;
-import org.sopt.post.exception.InvalidContentException;
-import org.sopt.post.exception.InvalidTitleException;
+import jakarta.validation.constraints.NotBlank;
 
 public record CreatePostRequest(
+		@NotBlank
 		String title,
+		@NotBlank
 		String content,
-		String author,
+		@NotBlank
 		String boardType,
-		boolean isAnonymous,
-		List<String> hashtags
+		boolean isAnonymous
 ) {
-	public CreatePostRequest {
-		this.validate(title, content, author, boardType);
-	}
-
-	private void validate(String title, String content, String author, String boardType) {
-		if (title == null || title.isBlank()) {
-			throw new InvalidTitleException(FailureCode.TITLE_REQUIRED);
-		}
-		if (content == null || content.isBlank()) {
-			throw new InvalidContentException();
-		}
-		if (author == null || author.isBlank()) {
-			throw new InvalidAuthorException();
-		}
-		if (boardType == null || boardType.isBlank()) {
-			throw new InvalidBoardTypeException();
-		}
-	}
 }

@@ -1,30 +1,27 @@
 package org.sopt.post.service.mapper;
 
-import java.time.LocalDateTime;
-
-import org.sopt.post.domain.Post;
+import org.sopt.member.entity.Member;
+import org.sopt.post.entity.Post;
 import org.sopt.post.service.dto.command.CreatePostCommand;
 import org.sopt.post.service.dto.information.PostDetailInfo;
 import org.sopt.post.service.dto.information.PostListInfo;
+import org.sopt.post.service.dto.information.PostSummaryInfo;
 
 import java.util.List;
 
 public class PostMapper {
 	private PostMapper() {}
 
-	public static Post toDomain(long id, CreatePostCommand request) {
+	public static Post toDomain(CreatePostCommand request, Member member) {
 		return new Post(
-				id,
 				request.title(),
 				request.content(),
-				request.author(),
-				LocalDateTime.now(),
 				request.boardType(),
 				request.isAnonymous(),
-				request.hashtags(),
 				0,
 				0,
-				0
+				0,
+				member
 		);
 	}
 
@@ -34,17 +31,40 @@ public class PostMapper {
 				post.getTitle(),
 				post.getContent(),
 				post.getBoardType(),
-				post.getAuthor(),
+				resolveAuthorName(post),
 				post.getCreatedAt(),
 				post.isAnonymous(),
-				post.getHashtags(),
 				post.getLikeCount(),
 				post.getCommentCount(),
 				post.getScrapCount()
 		);
 	}
 
-	public static PostListInfo toListInfo(List<Post> posts) {
-		return PostListInfo.of(posts, posts.size());
+	public static PostListInfo toListInfo(List<Post> posts, int currentPage, boolean hasNext) {
+		List<PostSummaryInfo> postSummaries = posts.stream()
+				.map(PostMapper::toSummaryInfo)
+				.toList();
+
+		return new PostListInfo(postSummaries, currentPage, hasNext);
+	}
+
+	private static PostSummaryInfo toSummaryInfo(Post post) {
+		return new PostSummaryInfo(
+				post.getId(),
+				post.getTitle(),
+				post.getContent(),
+				post.getLikeCount(),
+				post.getCommentCount(),
+				post.getCreatedAt(),
+				resolveAuthorName(post),
+				post.getBoardType()
+		);
+	}
+
+	private static String resolveAuthorName(Post post) {
+		if (post.isAnonymous()) {
+			return "익명";
+		}
+		return post.getMember().getNickname();
 	}
 }

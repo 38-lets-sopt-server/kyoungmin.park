@@ -3,17 +3,37 @@ package org.sopt.post.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.sopt.post.domain.BoardType;
-import org.sopt.post.domain.Post;
+import org.sopt.post.entity.BoardType;
+import org.sopt.post.entity.Post;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface PostRepository {
-	Post save(Post post);
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
-	List<Post> findAll(int page, int size, BoardType boardType);
+	@Query("""
+			SELECT p FROM Post p
+			JOIN FETCH p.member
+			WHERE p.id = :postId
+			""")
+	Optional<Post> findByIdWithMember(@Param("postId") Long postId);
 
-	Optional<Post> findById(long id);
+	@Query("""
+			SELECT p FROM Post p
+			JOIN FETCH p.member
+			WHERE (:boardType IS NULL OR p.boardType = :boardType)
+			ORDER BY p.createdAt DESC
+			""")
+	Slice<Post> findAllByBoardType(@Param("boardType") BoardType boardType, Pageable pageable);
 
-	boolean deleteById(long id);
+	@Modifying
+	@Query("UPDATE Post p SET p.likeCount = p.likeCount + 1 WHERE p.id = :postId")
+	void increaseLikeCount(@Param("postId") long postId);
 
-	long generateId();
+	@Modifying
+	@Query("UPDATE Post p SET p.likeCount = p.likeCount - 1 WHERE p.id = :postId")
+	void decreaseLikeCount(@Param("postId") long postId);
 }

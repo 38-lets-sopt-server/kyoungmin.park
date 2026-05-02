@@ -1,9 +1,8 @@
 package org.sopt.post.service.dto.information;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import org.sopt.post.domain.BoardType;
+import org.sopt.post.entity.BoardType;
 
 public record PostDetailInfo(
 		long id,
@@ -13,7 +12,6 @@ public record PostDetailInfo(
 		String author,
 		LocalDateTime createdAt,
 		boolean isAnonymous,
-		List<String> hashtags,
 		int likeCount,
 		int commentCount,
 		int scrapCount

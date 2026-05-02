@@ -19,10 +19,6 @@ public enum FailureCode implements FailureStatus {
 		this.message = message;
 	}
 
-	public boolean isSuccess() {
-		return false;
-	}
-
 	public HttpStatus getHttpStatus() {
 		return this.httpStatus;
 	}
