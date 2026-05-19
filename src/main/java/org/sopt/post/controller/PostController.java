@@ -25,15 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/posts")
 public class PostController implements PostControllerDocs {
 	private final PostService postService;
-
-	public PostController(PostService postService) {
-		this.postService = postService;
-	}
 
 	// POST /posts
 	@PostMapping

@@ -13,19 +13,16 @@ import org.springframework.stereotype.Repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
 
 	private static final QPost post = QPost.post;
 	private static final QMember member = QMember.member;
-
-	public PostRepositoryCustomImpl(EntityManager em, JPAQueryFactory queryFactory) {
-		this.em = em;
-		this.queryFactory = queryFactory;
-	}
 
 	@Override
 	public Slice<Post> searchByTitle(String title, Pageable pageable) {

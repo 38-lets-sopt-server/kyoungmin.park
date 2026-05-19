@@ -3,6 +3,11 @@ package org.sopt.global.status.code;
 import org.sopt.global.status.FailureStatus;
 import org.springframework.http.HttpStatus;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum FailureCode implements FailureStatus {
 	INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "요청값이 올바르지 않습니다."),
 	INVALID_REQUEST_METHOD(HttpStatus.BAD_REQUEST, "요청 메서드가 올바르지 않습니다."),
@@ -12,17 +17,4 @@ public enum FailureCode implements FailureStatus {
 
 	private final HttpStatus httpStatus;
 	private final String message;
-
-	FailureCode(HttpStatus httpStatus, String message) {
-		this.httpStatus = httpStatus;
-		this.message = message;
-	}
-
-	public HttpStatus getHttpStatus() {
-		return this.httpStatus;
-	}
-
-	public String getMessage() {
-		return this.message;
-	}
 }

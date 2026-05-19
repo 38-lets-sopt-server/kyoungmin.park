@@ -19,8 +19,13 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post",
 		indexes = {
 				@Index(name = "idx_post_member_id", columnList = "member_id")
@@ -56,8 +61,6 @@ public class Post extends BaseTimeEntity {
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Member member;
 
-	protected Post() {}
-
 	public Post(
 			String title,
 			String content,
@@ -77,42 +80,6 @@ public class Post extends BaseTimeEntity {
 		this.commentCount = commentCount;
 		this.scrapCount = scrapCount;
 		this.member = member;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public BoardType getBoardType() {
-		return boardType;
-	}
-
-	public boolean isAnonymous() {
-		return isAnonymous;
-	}
-
-	public int getLikeCount() {
-		return likeCount;
-	}
-
-	public int getCommentCount() {
-		return commentCount;
-	}
-
-	public int getScrapCount() {
-		return scrapCount;
-	}
-
-	public Member getMember() {
-		return member;
 	}
 
 	public void update(String title, String content) {

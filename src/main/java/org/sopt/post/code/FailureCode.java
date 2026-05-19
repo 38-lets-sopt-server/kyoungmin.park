@@ -3,6 +3,11 @@ package org.sopt.post.code;
 import org.sopt.global.status.FailureStatus;
 import org.springframework.http.HttpStatus;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum FailureCode implements FailureStatus {
 	TITLE_REQUIRED(HttpStatus.BAD_REQUEST, "제목은(는) 필수입니다."),
 	INVALID_TITLE_LENGTH(HttpStatus.BAD_REQUEST, "제목은 50자 이내여야 합니다."),
@@ -13,17 +18,4 @@ public enum FailureCode implements FailureStatus {
 
 	private final HttpStatus httpStatus;
 	private final String message;
-
-	FailureCode(HttpStatus httpStatus, String message) {
-		this.httpStatus = httpStatus;
-		this.message = message;
-	}
-
-	public HttpStatus getHttpStatus() {
-		return this.httpStatus;
-	}
-
-	public String getMessage() {
-		return this.message;
-	}
 }

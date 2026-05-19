@@ -14,8 +14,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post_like",
 		uniqueConstraints = {
 				@UniqueConstraint(columnNames = {"post_id", "member_id"})
@@ -36,8 +41,6 @@ public class PostLike {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private Member member;
-
-	protected PostLike() {}
 
 	public PostLike(Post post, Member member) {
 		this.post = post;
