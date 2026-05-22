@@ -3,6 +3,8 @@ package org.sopt.global.security.util;
 import java.util.Arrays;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 
 import lombok.Getter;
@@ -34,9 +36,13 @@ public enum AuthWhiteList {
 						&& entry.getMethod().equals(HttpMethod.valueOf(httpMethod)));
 	}
 
-	public static String[] getAllowedPaths() {
+	public static RequestMatcher[] getAllowedRequestMatchers() {
 		return Arrays.stream(values())
-				.map(AuthWhiteList::getPath)
-				.toArray(String[]::new);
+				.map(AuthWhiteList::getRequestMatcher)
+				.toArray(RequestMatcher[]::new);
+	}
+
+	private RequestMatcher getRequestMatcher() {
+		return new AntPathRequestMatcher(this.path, this.method.name());
 	}
 }
