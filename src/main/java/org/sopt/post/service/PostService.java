@@ -21,22 +21,15 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
 	private final PostRepository postRepository;
 	private final PostLikeRepository postLikeRepository;
 	private final MemberRepository memberRepository;
-
-	public PostService(
-			PostRepository postRepository,
-			PostLikeRepository postLikeRepository,
-			MemberRepository memberRepository
-	) {
-		this.postRepository = postRepository;
-		this.postLikeRepository = postLikeRepository;
-		this.memberRepository = memberRepository;
-	}
 
 	// CREATE
 	@Transactional

@@ -3,6 +3,11 @@ package org.sopt.post.code;
 import org.sopt.global.status.SuccessStatus;
 import org.springframework.http.HttpStatus;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum SuccessCode implements SuccessStatus {
 	POST_CREATED(HttpStatus.CREATED, "게시글 등록 완료!"),
 	POST_FOUND(HttpStatus.OK, "게시글 조회 완료!"),
@@ -13,17 +18,4 @@ public enum SuccessCode implements SuccessStatus {
 
 	private final HttpStatus httpStatus;
 	private final String message;
-
-	SuccessCode(HttpStatus httpStatus, String message) {
-		this.httpStatus = httpStatus;
-		this.message = message;
-	}
-
-	public HttpStatus getHttpStatus() {
-		return this.httpStatus;
-	}
-
-	public String getMessage() {
-		return this.message;
-	}
 }
