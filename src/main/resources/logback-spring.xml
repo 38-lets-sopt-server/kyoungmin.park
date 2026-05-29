@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <!-- Spring Boot 기본 설정 유지 -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!-- 내 애플리케이션 전용 로그 -->
+    <appender name="CUSTOM"
+              class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder>
+            <pattern>
+                [ASSIGNMENT]  %d{yyyy-mm-dd HH:mm:ss.SSS} %-5level [%thread] [%X{traceId}] %msg%n
+            </pattern>
+        </encoder>
+
+    </appender>
+
+    <!-- org.sopt 패키지만 커스텀 로그 적용 -->
+    <logger name="org.sopt"
+            level="TRACE"
+            additivity="false">
+
+        <appender-ref ref="CUSTOM"/>
+
+    </logger>
+
+</configuration>
