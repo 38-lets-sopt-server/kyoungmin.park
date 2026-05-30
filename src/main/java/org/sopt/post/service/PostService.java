@@ -1,5 +1,6 @@
 package org.sopt.post.service;
 
+import org.sopt.global.common.aop.annotation.LogExecution;
 import org.sopt.member.entity.Member;
 import org.sopt.member.exception.InvalidMemberException;
 import org.sopt.member.exception.MemberNotfoundException;
@@ -32,6 +33,7 @@ public class PostService {
 	private final MemberRepository memberRepository;
 
 	// CREATE
+	@LogExecution
 	@Transactional
 	public PostDetailInfo createPost(long memberId, CreatePostCommand command) {
 		Member author = memberRepository.findById(memberId)
@@ -42,6 +44,7 @@ public class PostService {
 	}
 
 	// READALL
+	@LogExecution
 	public PostListInfo getAllPosts(int page, int size, String boardType) {
 		Pageable pageable = PageRequest.of(page - 1, size);
 		BoardType target = boardType == null ? null : BoardType.from(boardType);
@@ -50,6 +53,7 @@ public class PostService {
 		return PostMapper.toListInfo(posts.getContent(), posts.getNumber() + 1, posts.hasNext());
 	}
 
+	@LogExecution
 	public PostListInfo getPostsByTitle(String title, int page, int size) {
 		Pageable pageable = PageRequest.of(page - 1, size);
 		Slice<Post> posts = postRepository.searchByTitle(title, pageable);
@@ -58,11 +62,13 @@ public class PostService {
 	}
 
 	// READ
+	@LogExecution
 	public PostDetailInfo getPost(long postId) {
 		return PostMapper.toDetailInfo(postRepository.findById(postId).orElseThrow(PostNotFoundException::new));
 	}
 
 	// UPDATE
+	@LogExecution
 	@Transactional
 	public PostDetailInfo updatePost(long memberId, long postId, UpdatePostCommand command) {
 		Post post = postRepository.findByIdWithMember(postId).orElseThrow(PostNotFoundException::new);
@@ -73,6 +79,7 @@ public class PostService {
 		return PostMapper.toDetailInfo(post);
 	}
 
+	@LogExecution
 	@Transactional
 	public void updateLike(long memberId, long postId) {
 		Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
@@ -89,6 +96,7 @@ public class PostService {
 	}
 
 	// DELETE
+	@LogExecution
 	@Transactional
 	public void deletePost(long memberId, long postId) {
 		Post post = postRepository.findByIdWithMember(postId).orElseThrow(PostNotFoundException::new);

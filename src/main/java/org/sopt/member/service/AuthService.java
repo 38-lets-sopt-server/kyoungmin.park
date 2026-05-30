@@ -1,5 +1,6 @@
 package org.sopt.member.service;
 
+import org.sopt.global.common.aop.annotation.LogExecution;
 import org.sopt.global.security.jwt.JwtProvider;
 import org.sopt.member.entity.Member;
 import org.sopt.member.exception.DuplicateEmailException;
@@ -25,6 +26,7 @@ public class AuthService {
 	private final JwtProvider jwtProvider;
 	private final PasswordEncoder passwordEncoder;
 
+	@LogExecution(includeArgs = false)
 	@Transactional
 	public void signUp(SignUpCommand command) {
 		if (memberRepository.existsByEmail(command.email())) {
@@ -34,6 +36,7 @@ public class AuthService {
 		memberRepository.save(MemberMapper.toDomain(command, encodedPassword));
 	}
 
+	@LogExecution(includeArgs = false, includeResult = false)
 	@Transactional
 	public LoginInfo login(LoginCommand command) {
 		Member member = memberRepository.findByEmail(command.email())
